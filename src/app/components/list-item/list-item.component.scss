@@ -1,0 +1,61 @@
+@mixin item-btn($color) {
+  width: 48px;
+  height: 48px;
+
+  border: none;
+  border-radius: 48px;
+  background-color: $color;
+
+  text-align: center;
+
+  & img {
+    transform: translateX(11px);
+  }
+}
+
+.list {
+  margin-top: 60px;
+
+  &-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    border: 1.5px solid #000;
+    border-radius: 5px;
+
+    padding: 8px 16px;
+    margin-bottom: 16px;
+
+    &__modify {
+      display: flex;
+      gap: 16px;
+    }
+  }
+
+  &-item__title {
+    display: flex;
+    gap: 8px;
+
+    font-size: 18px;
+  }
+
+  &-item__due {
+    margin-top: 10px;
+
+    font-size: 13px;
+    font-style: italic;
+  }
+}
+
+.complete-btn {
+  @include item-btn(#6bcb77);
+}
+
+.edit-btn {
+  @include item-btn(#ffd93d);
+}
+
+.delete-btn {
+  @include item-btn(#ff6b6b);
+}
