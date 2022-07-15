@@ -7,10 +7,18 @@ import { MainComponent } from './components/main/main.component';
 import { CounterComponent } from './components/counter/counter.component';
 import { FilterComponent } from './components/filter/filter.component';
 import { ListItemComponent } from './components/list-item/list-item.component';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
-  declarations: [AppComponent, FormComponent, MainComponent, CounterComponent, FilterComponent, ListItemComponent],
-  imports: [BrowserModule, AppRoutingModule],
+  declarations: [
+    AppComponent,
+    FormComponent,
+    MainComponent,
+    CounterComponent,
+    FilterComponent,
+    ListItemComponent,
+  ],
+  imports: [BrowserModule, AppRoutingModule, HttpClientModule],
   providers: [],
   bootstrap: [AppComponent],
 })
