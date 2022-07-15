@@ -1,1 +1,54 @@
 /* You can add global styles to this file, and also import other style files */
+html {
+  box-sizing: border-box;
+}
+body {
+  font-size: 100%;
+  overflow-x: hidden;
+  font-family: "Roboto", sans-serif;
+  background-color: #4d96ff;
+  // background: #56ccf2; /* fallback for old browsers */
+  // background: -webkit-linear-gradient(
+  //   to right,
+  //   #2f80ed,
+  //   #56ccf2
+  // ); /* Chrome 10-25, Safari 5.1-6 */
+  // background: linear-gradient(
+  //   to right,
+  //   #2f80ed,
+  //   #56ccf2
+  // ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+* {
+  margin: 0;
+  padding: 0;
+}
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+input,
+textarea,
+select,
+button {
+  outline: none;
+}
+input {
+  line-height: normal;
+}
+label,
+button {
+  cursor: pointer;
+}
+a {
+  text-decoration: none;
+}
+img {
+  display: block;
+  max-width: 100%;
+}
+ol,
+ul {
+  list-style: none;
+}

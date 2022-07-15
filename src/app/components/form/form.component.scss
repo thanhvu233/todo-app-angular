@@ -1,0 +1,60 @@
+.form {
+  width: 368px;
+  height: 234px;
+
+  background-color: #fff;
+  border-radius: 5px;
+
+  margin: 20px auto;
+  padding: 20px 16px;
+
+  & .item-name {
+    & label {
+      @extend .item-label;
+    }
+
+    & input {
+      @extend .item-input;
+    }
+  }
+
+  & .item-due {
+    margin-top: 20px;
+
+    & label {
+      @extend .item-label;
+    }
+
+    & input {
+      @extend .item-input;
+    }
+  }
+
+  & .form__btn {
+    margin-top: 24px;
+
+    width: 336px;
+    height: 32px;
+
+    border: none;
+    border-radius: 5px;
+    background-color: #4d96ff;
+
+    color: #fff;
+    font-size: 13px;
+    font-weight: 700;
+  }
+}
+
+.item-label {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.item-input {
+  width: 336px;
+  height: 32px;
+
+  margin-top: 6px;
+  padding: 0 8px;
+}
