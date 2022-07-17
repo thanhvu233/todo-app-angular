@@ -1,0 +1,42 @@
+<ul class="list">
+  <li class="list-item" *ngFor="let item of itemArr">
+    <div class="list-item__detail">
+      <div class="list-item__title">
+        <p>{{ item.name }}</p>
+        <div [ngSwitch]="item.status">
+          <img
+            src="../../../assets/images/errorIcon.svg"
+            alt="error"
+            *ngSwitchCase="'warning'"
+          />
+          <img
+            src="../../../assets/images/doneIcon.svg"
+            alt="done"
+            *ngSwitchCase="'completed'"
+          />
+          <img
+            src="../../../assets/images/processingIcon.svg"
+            alt="processing"
+            *ngSwitchCase="'active'"
+          />
+        </div>
+      </div>
+
+      <p class="list-item__due">
+        Due: {{ item.due | date: "HH:mm dd/MM/YYYY" }}
+      </p>
+    </div>
+
+    <div class="list-item__modify">
+      <button class="complete-btn">
+        <img src="../../../assets/images/completeIcon.svg" alt="completeIcon" />
+      </button>
+      <button class="edit-btn">
+        <img src="../../../assets/images/editIcon.svg" alt="editIcon" />
+      </button>
+      <button class="delete-btn">
+        <img src="../../../assets/images/deleteIcon.svg" alt="deleteIcon" />
+      </button>
+    </div>
+  </li>
+</ul>

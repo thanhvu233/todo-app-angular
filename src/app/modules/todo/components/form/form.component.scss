@@ -1,8 +1,10 @@
+@import "../../../../constants/variables";
+
 .form {
   width: 368px;
   height: 234px;
 
-  background-color: #fff;
+  background-color: $white-color;
   border-radius: 5px;
 
   margin: 20px auto;
@@ -19,7 +21,7 @@
   }
 
   & .item-due {
-    margin-top: 20px;
+    margin-top: 4px;
 
     & label {
       @extend .item-label;
@@ -31,16 +33,16 @@
   }
 
   & .form__btn {
-    margin-top: 24px;
+    margin-top: 4px;
 
     width: 336px;
     height: 32px;
 
     border: none;
     border-radius: 5px;
-    background-color: #4d96ff;
+    background-color: $blue-color;
 
-    color: #fff;
+    color: $white-color;
     font-size: 13px;
     font-weight: 700;
   }
@@ -57,4 +59,29 @@
 
   margin-top: 6px;
   padding: 0 8px;
+
+  border-radius: 5px;
+  border: 1px solid $border-input-color;
+  background-color: $background-input-color;
+  color: $text-input-color;
+}
+
+.is-invalid {
+  border: 0.5px solid $red-color;
+}
+
+.d-none {
+  visibility: hidden;
+}
+
+.text-danger {
+  color: $red-color;
+  font-size: 11px;
+  font-style: italic;
+  margin-bottom: -16px;
+}
+
+.is-disabled {
+  opacity: 0.65;
+  pointer-events: none;
 }

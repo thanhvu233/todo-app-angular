@@ -1,3 +1,5 @@
+@import "../../../../constants/variables";
+
 @mixin item-btn($color) {
   width: 48px;
   height: 48px;
@@ -21,11 +23,11 @@
     justify-content: space-between;
     align-items: center;
 
-    border: 1.5px solid #000;
+    border: 1.5px solid $primary-text-color;
     border-radius: 5px;
 
     padding: 8px 16px;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
 
     &__modify {
       display: flex;
@@ -49,13 +51,13 @@
 }
 
 .complete-btn {
-  @include item-btn(#6bcb77);
+  @include item-btn($green-color);
 }
 
 .edit-btn {
-  @include item-btn(#ffd93d);
+  @include item-btn($yellow-color);
 }
 
 .delete-btn {
-  @include item-btn(#ff6b6b);
+  @include item-btn($delete-color);
 }
