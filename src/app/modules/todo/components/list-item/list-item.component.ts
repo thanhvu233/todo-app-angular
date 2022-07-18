@@ -9,6 +9,7 @@ import { Item } from 'src/app/models/item';
 export class ListItemComponent implements OnInit {
   @Input() public itemArr: Item[] = [];
   @Output() deleteEvent = new EventEmitter();
+  @Output() accomplishEvent = new EventEmitter();
 
   constructor() {}
 
@@ -16,5 +17,9 @@ export class ListItemComponent implements OnInit {
 
   onDelete(id: number): void {
     this.deleteEvent.emit(id);
+  }
+
+  onAccomplish(item: Item): void {
+    this.accomplishEvent.emit(item);
   }
 }

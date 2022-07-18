@@ -15,6 +15,22 @@
   }
 }
 
+@mixin badge($background-color) {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  padding: 0.4em 0.6em 0.3em;
+  border-radius: 10rem;
+  transform: translateY(-2.5px);
+
+  color: $white-color;
+  background-color: $background-color;
+}
+
 .list {
   margin-top: 60px;
 
@@ -49,6 +65,18 @@
     font-size: 13px;
     font-style: italic;
   }
+}
+
+.badge-completed {
+  @include badge($green-color);
+}
+
+.badge-warning {
+  @include badge($red-color);
+}
+
+.badge-active {
+  @include badge($blue-color);
 }
 
 .complete-btn {

@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ItemStatus } from 'src/app/constants/itemStatus';
 import { Item } from 'src/app/models/item';
 import { TodoService } from '../../service/todo.service';
 
@@ -38,10 +39,23 @@ export class MainComponent implements OnInit {
     });
   }
 
-  handleDelete(id: number) {
+  handleDelete(id: number): void {
     this._todoService.deleteItem(id).subscribe({
-      next: (data) => {
-        console.log(data);
+      next: () => {
+        console.log('Delete Successfully!');
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  handleAccomplish(item: Item): void {
+    item = { ...item, status: ItemStatus.COMPLETED };
+
+    this._todoService.accomplishItem(item).subscribe({
+      next: () => {
+        console.log('Completed!');
       },
       error: (err) => {
         console.log(err);
