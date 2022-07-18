@@ -12,11 +12,8 @@ import { environment } from 'src/environments/environment';
 export class TodoService {
   baseUrl: string = environment.baseUrl;
 
-  private _refreshPage$ = new Subject<void>();
-
-  get refreshPage$() {
-    return this._refreshPage$;
-  }
+  private _refreshPage = new Subject<void>();
+  refreshPage$ = this._refreshPage.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -27,24 +24,18 @@ export class TodoService {
   addItem(item: Item) {
     return this.http
       .post<Item>(this.baseUrl + '/items', item)
-      .pipe(tap(() => this._refreshPage$.next()));
+      .pipe(tap(() => this._refreshPage.next()));
   }
 
   deleteItem(id: number) {
-    return this.http
-      .delete<Item>(this.baseUrl + `/items/${id}`)
-      .pipe(tap(() => this._refreshPage$.next()));
+    return this.http.delete<Item>(this.baseUrl + `/items/${id}`);
   }
 
   accomplishItem(item: Item) {
-    return this.http
-      .put<Item>(this.baseUrl + `/items/${item.id}`, item)
-      .pipe(tap(() => this._refreshPage$.next()));
+    return this.http.put<Item>(this.baseUrl + `/items/${item.id}`, item);
   }
 
   getItemsByStatus(status: string): Observable<IResponse> {
-    return this.http
-      .get<IResponse>(this.baseUrl + `/items?status=${status}`)
-      .pipe(tap(() => this._refreshPage$.next()));
+    return this.http.get<IResponse>(this.baseUrl + `/items?status=${status}`);
   }
 }

@@ -24,6 +24,10 @@ export class MainComponent implements OnInit {
     //   },
     // });
 
+    this._todoService.refreshPage$.subscribe(() => {
+      this.getAllItems();
+    });
+
     this.getAllItems();
   }
 
