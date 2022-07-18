@@ -15,14 +15,14 @@ export class MainComponent implements OnInit {
   constructor(private _todoService: TodoService) {}
 
   ngOnInit(): void {
-    this._todoService.refreshPage$.subscribe({
-      next: (data) => {
-        this.getAllItems();
-      },
-      error: (error) => {
-        console.log(error);
-      },
-    });
+    // this._todoService.refreshPage$.subscribe({
+    //   next: (data) => {
+    //     this.getAllItems();
+    //   },
+    //   error: (error) => {
+    //     console.log(error);
+    //   },
+    // });
 
     this.getAllItems();
   }
@@ -41,8 +41,8 @@ export class MainComponent implements OnInit {
 
   handleDelete(id: number): void {
     this._todoService.deleteItem(id).subscribe({
-      next: () => {
-        console.log('Delete Successfully!');
+      next: (data) => {
+        this.itemArr = this.itemArr.filter((item) => item.id !== data.id);
       },
       error: (err) => {
         console.log(err);
@@ -51,11 +51,28 @@ export class MainComponent implements OnInit {
   }
 
   handleAccomplish(item: Item): void {
-    item = { ...item, status: ItemStatus.COMPLETED };
+    let completedItem = { ...item, status: ItemStatus.COMPLETED };
 
-    this._todoService.accomplishItem(item).subscribe({
-      next: () => {
-        console.log('Completed!');
+    this._todoService.accomplishItem(completedItem).subscribe({
+      next: (data) => {
+        this.itemArr = this.itemArr.map((item: Item) => {
+          if (item.id === data.id) {
+            return { ...data };
+          }
+
+          return item;
+        });
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  handleTabClick(status: string): void {
+    this._todoService.getItemsByStatus(status).subscribe({
+      next: (response) => {
+        this.itemArr = response.data;
       },
       error: (err) => {
         console.log(err);

@@ -4,21 +4,6 @@
       <div class="list-item__title">
         <p>{{ item.name }}</p>
         <div [ngSwitch]="item.status">
-          <!-- <img
-            src="../../../assets/images/errorIcon.svg"
-            alt="error"
-            *ngSwitchCase="'warning'"
-          />
-          <img
-            src="../../../assets/images/doneIcon.svg"
-            alt="done"
-            *ngSwitchCase="'completed'"
-          />
-          <img
-            src="../../../assets/images/processingIcon.svg"
-            alt="processing"
-            *ngSwitchCase="'active'"
-          /> -->
           <span class='badge badge-completed' *ngSwitchCase="'completed'">COMPLETED</span>
           <span class='badge badge-warning' *ngSwitchCase="'warning'">WARNING</span>
           <span class='badge badge-active' *ngSwitchCase="'active'">ACTIVE</span>

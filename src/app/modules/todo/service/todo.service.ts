@@ -32,13 +32,19 @@ export class TodoService {
 
   deleteItem(id: number) {
     return this.http
-      .delete<string>(this.baseUrl + `/items/${id}`)
+      .delete<Item>(this.baseUrl + `/items/${id}`)
       .pipe(tap(() => this._refreshPage$.next()));
   }
 
   accomplishItem(item: Item) {
     return this.http
-      .put<string>(this.baseUrl + `/items/${item.id}`, item)
+      .put<Item>(this.baseUrl + `/items/${item.id}`, item)
+      .pipe(tap(() => this._refreshPage$.next()));
+  }
+
+  getItemsByStatus(status: string): Observable<IResponse> {
+    return this.http
+      .get<IResponse>(this.baseUrl + `/items?status=${status}`)
       .pipe(tap(() => this._refreshPage$.next()));
   }
 }

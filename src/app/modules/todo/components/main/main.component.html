@@ -1,7 +1,5 @@
 <div class="main">
-  <div class="main__feature">
+  <app-tab (tabEvent)="handleTabClick($event)"></app-tab>
     <app-counter [countItem]="countItem"></app-counter>
-    <app-filter></app-filter>
-  </div>
   <app-list-item [itemArr]="itemArr" (deleteEvent)='handleDelete($event)' (accomplishEvent)='handleAccomplish($event)'></app-list-item>
 </div>

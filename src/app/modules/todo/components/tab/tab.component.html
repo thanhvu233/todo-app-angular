@@ -1,0 +1,25 @@
+<div class="tab">
+  <button
+    class="tab__btn"
+    [class.tab__btn-active]="tabState.all"
+    (click)="onClickAll()"
+  >
+    ALL
+  </button>
+
+  <button
+    class="tab__btn"
+    [class.tab__btn-active]="tabState.active"
+    (click)="onClickActive()"
+  >
+    ACTIVE
+  </button>
+
+  <button
+    class="tab__btn"
+    [class.tab__btn-active]="tabState.completed"
+    (click)="onClickCompleted()"
+  >
+    COMPLETED
+  </button>
+</div>

@@ -8,6 +8,7 @@ import { FormComponent } from './components/form/form.component';
 import { ListItemComponent } from './components/list-item/list-item.component';
 import { MainComponent } from './components/main/main.component';
 import { TodoComponent } from './todo.component';
+import { TabComponent } from './components/tab/tab.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { TodoComponent } from './todo.component';
     FilterComponent,
     ListItemComponent,
     TodoComponent,
+    TabComponent,
   ],
   imports: [CommonModule, HttpClientModule, FormsModule, ReactiveFormsModule],
   exports: [
