@@ -1,3 +1,5 @@
+@import "../../../../constants/variables";
+
 .filter {
   &__label {
     font-size: 16px;
@@ -13,11 +15,8 @@
     height: 32px;
 
     border-radius: 5px;
+    border-color: $border-input-color;
     font-size: 14px;
     font-family: "Roboto", sans-serif;
-
-  }
-
-  &__option {
   }
 }

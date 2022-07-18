@@ -3,5 +3,5 @@
     <app-counter [countItem]="countItem"></app-counter>
     <app-filter></app-filter>
   </div>
-  <app-list-item [itemArr]="itemArr"></app-list-item>
+  <app-list-item [itemArr]="itemArr" (deleteEvent)='handleDelete($event)'></app-list-item>
 </div>

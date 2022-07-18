@@ -26,11 +26,22 @@ export class MainComponent implements OnInit {
     this.getAllItems();
   }
 
-  private getAllItems() {
+  private getAllItems(): void {
     this._todoService.getAllItems().subscribe({
       next: (response) => {
         this.itemArr = response.data;
         this.countItem = response.count;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  handleDelete(id: number) {
+    this._todoService.deleteItem(id).subscribe({
+      next: (data) => {
+        console.log(data);
       },
       error: (err) => {
         console.log(err);

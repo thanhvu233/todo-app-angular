@@ -29,4 +29,10 @@ export class TodoService {
       .post<Item>(this.baseUrl + '/items', item)
       .pipe(tap(() => this._refreshPage$.next()));
   }
+
+  deleteItem(id: number) {
+    return this.http
+      .delete<string>(this.baseUrl + `/items/${id}`)
+      .pipe(tap(() => this._refreshPage$.next()));
+  }
 }
