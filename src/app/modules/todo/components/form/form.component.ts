@@ -24,18 +24,51 @@ export class FormComponent implements OnInit {
     return this.addEditForm.get('due');
   }
 
-  ngOnInit(): void {}
+  public isEdit: boolean = false;
+  public itemId: number = 0;
+
+  ngOnInit(): void {
+    this._todoService.editItem$.subscribe(
+      (obj: { item: Item; isEdit: boolean }) => {
+        this.addEditForm.setValue({
+          name: obj.item.name,
+          due: obj.item.due,
+        });
+
+        this.isEdit = obj.isEdit;
+        this.itemId = obj.item.id;
+      }
+    );
+  }
 
   onSubmit() {
-    const item: Item = { status: 'active', ...this.addEditForm.value };
+    if (!this.isEdit) {
+      const item: Item = { status: 'active', ...this.addEditForm.value };
 
-    this._todoService.addItem(item).subscribe({
-      next: (data) => {
-        this.addEditForm.reset({ name: '', due: '' });
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+      this._todoService.addItem(item).subscribe({
+        next: () => {
+          this.addEditForm.reset({ name: '', due: '' });
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+    } else {
+      const item: Item = {
+        id: this.itemId,
+        status: 'active',
+        ...this.addEditForm.value,
+      };
+
+      this._todoService.updateItem(item).subscribe({
+        next: () => {
+          this.addEditForm.reset({ name: '', due: '' });
+          this.isEdit = false;
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
+    }
   }
 }

@@ -15,6 +15,9 @@ export class TodoService {
   private _refreshPage = new Subject<void>();
   refreshPage$ = this._refreshPage.asObservable();
 
+  private _editItem = new Subject<{ item: Item; isEdit: boolean }>();
+  editItem$ = this._editItem.asObservable();
+
   constructor(private http: HttpClient) {}
 
   getAllItems(): Observable<IResponse> {
@@ -37,5 +40,15 @@ export class TodoService {
 
   getItemsByStatus(status: string): Observable<IResponse> {
     return this.http.get<IResponse>(this.baseUrl + `/items?status=${status}`);
+  }
+
+  updateItem(item: Item) {
+    return this.http
+      .put<Item>(this.baseUrl + `/items/${item.id}`, item)
+      .pipe(tap(() => this._refreshPage.next()));
+  }
+
+  sendItem(item: Item, isEdit: boolean): void {
+    this._editItem.next({ item: item, isEdit: isEdit });
   }
 }

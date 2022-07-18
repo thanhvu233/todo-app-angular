@@ -108,4 +108,8 @@ export class MainComponent implements OnInit {
       this.getCountByStatus(this.tabState);
     }
   }
+
+  handleEdit(item: Item): void {
+    this._todoService.sendItem(item, true);
+  }
 }

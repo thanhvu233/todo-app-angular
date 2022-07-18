@@ -10,6 +10,7 @@ export class ListItemComponent implements OnInit {
   @Input() public itemArr: Item[] = [];
   @Output() deleteEvent = new EventEmitter();
   @Output() accomplishEvent = new EventEmitter();
+  @Output() editEvent = new EventEmitter();
 
   constructor() {}
 
@@ -21,5 +22,9 @@ export class ListItemComponent implements OnInit {
 
   onAccomplish(item: Item): void {
     this.accomplishEvent.emit(item);
+  }
+
+  onEdit(item: Item): void {
+    this.editEvent.emit(item);
   }
 }

@@ -29,7 +29,11 @@
       >
         <img src="../../../assets/images/completeIcon.svg" alt="completeIcon" />
       </button>
-      <button class="edit-btn">
+      <button
+        class="edit-btn"
+        (click)="onEdit(item)"
+        [class.d-none]="item.status == 'completed'"
+      >
         <img src="../../../assets/images/editIcon.svg" alt="editIcon" />
       </button>
       <button class="delete-btn" (click)="onDelete(item.id)">
