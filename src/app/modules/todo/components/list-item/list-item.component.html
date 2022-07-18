@@ -4,9 +4,15 @@
       <div class="list-item__title">
         <p>{{ item.name }}</p>
         <div [ngSwitch]="item.status">
-          <span class='badge badge-completed' *ngSwitchCase="'completed'">COMPLETED</span>
-          <span class='badge badge-warning' *ngSwitchCase="'warning'">WARNING</span>
-          <span class='badge badge-active' *ngSwitchCase="'active'">ACTIVE</span>
+          <span class="badge badge-completed" *ngSwitchCase="'completed'"
+            >COMPLETED</span
+          >
+          <span class="badge badge-warning" *ngSwitchCase="'warning'"
+            >WARNING</span
+          >
+          <span class="badge badge-active" *ngSwitchCase="'active'"
+            >ACTIVE</span
+          >
         </div>
       </div>
 
@@ -16,7 +22,11 @@
     </div>
 
     <div class="list-item__modify">
-      <button class="complete-btn" (click)="onAccomplish(item)">
+      <button
+        class="complete-btn"
+        (click)="onAccomplish(item)"
+        [class.d-none]="item.status == 'completed'"
+      >
         <img src="../../../assets/images/completeIcon.svg" alt="completeIcon" />
       </button>
       <button class="edit-btn">

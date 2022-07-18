@@ -32,7 +32,7 @@
 }
 
 .list {
-  margin-top: 60px;
+  margin-top: 28px;
 
   &-item {
     display: flex;
@@ -89,4 +89,8 @@
 
 .delete-btn {
   @include item-btn($delete-color);
+}
+
+.d-none {
+  display: none;
 }
