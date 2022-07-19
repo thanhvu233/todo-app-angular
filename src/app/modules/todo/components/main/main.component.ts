@@ -17,9 +17,19 @@ export class MainComponent implements OnInit {
   constructor(private _todoService: TodoService) {}
 
   ngOnInit(): void {
-    this._todoService.refreshPage$.subscribe(() => {
-      this.getAllItems();
-      this.getCountByStatus(ItemStatus.ACTIVE);
+    this._todoService.refreshPage$.subscribe((tabState) => {
+      // this.getAllItems();
+      // this.getCountByStatus(ItemStatus.ACTIVE);
+
+      if (tabState == 'all') {
+        this.getAllItems();
+        this.itemState = ItemStatus.ACTIVE;
+        this.getCountByStatus(ItemStatus.ACTIVE);
+      } else {
+        this.itemState = tabState;
+        this.getItemsByStatus(tabState);
+        this.getCountByStatus(tabState);
+      }
     });
 
     this.getAllItems();
@@ -63,13 +73,15 @@ export class MainComponent implements OnInit {
     });
   }
 
-  handleTabClick(status: string): void {
-    if (status == 'all') {
+  handleTabClick(tabState: string): void {
+    this._todoService.sendTabState(tabState);
+
+    if (tabState == 'all') {
       this.itemState = ItemStatus.ACTIVE;
       this.getAllItems();
     } else {
-      this.itemState = status;
-      this.getItemsByStatus(status);
+      this.itemState = tabState;
+      this.getItemsByStatus(tabState);
     }
 
     this.getCountByStatus(this.itemState);

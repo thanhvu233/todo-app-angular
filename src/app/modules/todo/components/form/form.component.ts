@@ -10,6 +10,8 @@ import { TodoService } from '../../service/todo.service';
   styleUrls: ['./form.component.scss'],
 })
 export class FormComponent implements OnInit {
+  public tabState: string = 'all';
+
   constructor(private _todoService: TodoService, private fb: FormBuilder) {}
 
   public addEditForm = this.fb.group({
@@ -40,6 +42,15 @@ export class FormComponent implements OnInit {
         this.itemId = tmpObj.item.id;
       }
     );
+
+    this._todoService.tabState$.subscribe({
+      next: (tabState: string) => {
+        this.tabState = tabState;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 
   onSubmit() {
@@ -56,7 +67,9 @@ export class FormComponent implements OnInit {
         isWarning: isWarning,
       };
 
-      this._todoService.addItemByAPI(item).subscribe({
+      // tabState parameter will let we know which tab view
+      // will be rendered
+      this._todoService.addItemByAPI(item, this.tabState).subscribe({
         next: () => {
           this.addEditForm.reset({ name: '', due: '' });
         },

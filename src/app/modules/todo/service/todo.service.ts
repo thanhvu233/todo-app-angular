@@ -13,8 +13,11 @@ import { environment } from 'src/environments/environment';
 export class TodoService {
   baseUrl: string = environment.baseUrl;
 
-  private _refreshPage = new Subject<void>();
+  private _refreshPage = new Subject<string>();
   refreshPage$ = this._refreshPage.asObservable();
+ 
+  private _tabState = new Subject<string>();
+  tabState$ = this._tabState.asObservable();
 
   private _editItem = new Subject<{ item: Item; isEdit: boolean }>();
   editItem$ = this._editItem.asObservable();
@@ -25,10 +28,10 @@ export class TodoService {
     return this.http.get<IResponse>(this.baseUrl + '/items');
   }
 
-  addItemByAPI(item: Item): Observable<Item> {
+  addItemByAPI(item: Item, tabState: string): Observable<Item> {
     return this.http
       .post<Item>(this.baseUrl + '/items', item)
-      .pipe(tap(() => this._refreshPage.next()));
+      .pipe(tap(() => this._refreshPage.next(tabState)));
   }
 
   deleteItemByAPI(id: number): Observable<Item> {
@@ -56,6 +59,10 @@ export class TodoService {
 
   sendItem(item: Item, isEdit: boolean): void {
     this._editItem.next({ item: item, isEdit: isEdit });
+  }
+ 
+  sendTabState(tabState: string): void {
+    this._tabState.next(tabState);
   }
 
   checkDeadline(due: string, currentStatus: string): boolean {
