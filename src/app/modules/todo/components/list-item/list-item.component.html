@@ -7,12 +7,10 @@
           <span class="badge badge-completed" *ngSwitchCase="'completed'"
             >COMPLETED</span
           >
-          <span class="badge badge-warning" *ngSwitchCase="'warning'"
-            >WARNING</span
-          >
           <span class="badge badge-active" *ngSwitchCase="'active'"
             >ACTIVE</span
           >
+          <span class="badge badge-warning" *ngIf="item.isWarning">WARNING</span>
         </div>
       </div>
 

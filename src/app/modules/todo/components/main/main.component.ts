@@ -12,60 +12,26 @@ export class MainComponent implements OnInit {
   public itemArr: Item[] = [];
   public totalItem: number = 0;
   public countItem: number = 0;
-  public tabState: string = 'active';
+  public itemState: string = ItemStatus.ACTIVE;
 
   constructor(private _todoService: TodoService) {}
 
   ngOnInit(): void {
     this._todoService.refreshPage$.subscribe(() => {
       this.getAllItems();
-      this.getCountByStatus('active');
+      this.getCountByStatus(ItemStatus.ACTIVE);
     });
 
     this.getAllItems();
-    this.getCountByStatus('active');
-  }
-
-  private getAllItems(): void {
-    this._todoService.getAllItems().subscribe({
-      next: (response) => {
-        this.itemArr = response.data;
-        this.totalItem = response.count;
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
-  }
-
-  private getItemsByStatus(status: string): void {
-    this._todoService.getItemsByStatus(status).subscribe({
-      next: (response) => {
-        this.itemArr = response.data;
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
-  }
-
-  private getCountByStatus(status: string): void {
-    this._todoService.getItemsByStatus(status).subscribe({
-      next: (response) => {
-        this.countItem = response.count;
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    this.getCountByStatus(ItemStatus.ACTIVE);
   }
 
   handleDelete(id: number): void {
-    this._todoService.deleteItem(id).subscribe({
+    this._todoService.deleteItemByAPI(id).subscribe({
       next: (data) => {
         this.itemArr = this.itemArr.filter((item) => item.id !== data.id);
         this.totalItem--;
-        this.getCountByStatus(this.tabState);
+        this.getCountByStatus(this.itemState);
       },
       error: (err) => {
         console.log(err);
@@ -74,11 +40,15 @@ export class MainComponent implements OnInit {
   }
 
   handleAccomplish(item: Item): void {
-    let completedItem = { ...item, status: ItemStatus.COMPLETED };
+    let completedItem = {
+      ...item,
+      status: ItemStatus.COMPLETED,
+      isWarning: false,
+    };
 
-    this._todoService.accomplishItem(completedItem).subscribe({
+    this._todoService.accomplishItemByAPI(completedItem).subscribe({
       next: (data) => {
-        this.getCountByStatus(this.tabState);
+        this.getCountByStatus(this.itemState);
         this.itemArr = this.itemArr.map((item: Item) => {
           if (item.id === data.id) {
             return { ...data };
@@ -95,21 +65,90 @@ export class MainComponent implements OnInit {
 
   handleTabClick(status: string): void {
     if (status == 'all') {
-      this.tabState = 'active';
+      this.itemState = ItemStatus.ACTIVE;
+      this.getAllItems();
     } else {
-      this.tabState = status;
+      this.itemState = status;
+      this.getItemsByStatus(status);
     }
 
-    if (status == 'all') {
-      this.getAllItems();
-      this.getCountByStatus(this.tabState);
-    } else {
-      this.getItemsByStatus(status);
-      this.getCountByStatus(this.tabState);
-    }
+    this.getCountByStatus(this.itemState);
   }
 
   handleEdit(item: Item): void {
     this._todoService.sendItem(item, true);
+  }
+
+  getItemsByStatus(status: string): void {
+    this._todoService.getItemsByStatusByAPI(status).subscribe({
+      next: (response) => {
+        let updatedItem: Item;
+
+        this.itemArr = response.data.map((item) => {
+          const isWarning = this._todoService.checkDeadline(
+            item.due,
+            item.status
+          );
+
+          if (isWarning) {
+            updatedItem = { ...item, isWarning: isWarning };
+
+            this._todoService
+              .updateDeadlineByAPI(updatedItem)
+              .subscribe(() => {});
+            return updatedItem;
+          }
+
+          return item;
+        });
+
+        this.totalItem = response.count;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  getCountByStatus(status: string): void {
+    this._todoService.getItemsByStatusByAPI(status).subscribe({
+      next: (response) => {
+        this.countItem = response.count;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  getAllItems(): void {
+    this._todoService.getAllItemsByAPI().subscribe({
+      next: (response) => {
+        let updatedItem: Item;
+
+        this.itemArr = response.data.map((item) => {
+          const isWarning = this._todoService.checkDeadline(
+            item.due,
+            item.status
+          );
+
+          if (isWarning) {
+            updatedItem = { ...item, isWarning: isWarning };
+
+            this._todoService
+              .updateDeadlineByAPI(updatedItem)
+              .subscribe(() => {});
+            return updatedItem;
+          }
+
+          return item;
+        });
+
+        this.totalItem = response.count;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 }

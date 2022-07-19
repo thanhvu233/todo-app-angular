@@ -73,6 +73,8 @@
 
 .badge-warning {
   @include badge($red-color);
+
+  margin-left: 3px;
 }
 
 .badge-active {

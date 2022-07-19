@@ -26,5 +26,5 @@ export class ListItemComponent implements OnInit {
 
   onEdit(item: Item): void {
     this.editEvent.emit(item);
-  }
+  } 
 }

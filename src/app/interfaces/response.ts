@@ -5,7 +5,8 @@ export interface IResponse {
     id: number;
     name: string;
     due: string;
-    status: ItemStatus.ACTIVE | ItemStatus.COMPLETED | ItemStatus.WARNING;
+    status: ItemStatus.ACTIVE | ItemStatus.COMPLETED;
+    isWarning: boolean;
   }[];
   count: number;
 }

@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { ItemStatus } from 'src/app/constants/itemStatus';
 import { Item } from 'src/app/models/item';
 import { TodoService } from '../../service/todo.service';
 
@@ -29,23 +30,33 @@ export class FormComponent implements OnInit {
 
   ngOnInit(): void {
     this._todoService.editItem$.subscribe(
-      (obj: { item: Item; isEdit: boolean }) => {
+      (tmpObj: { item: Item; isEdit: boolean }) => {
         this.addEditForm.setValue({
-          name: obj.item.name,
-          due: obj.item.due,
+          name: tmpObj.item.name,
+          due: tmpObj.item.due,
         });
 
-        this.isEdit = obj.isEdit;
-        this.itemId = obj.item.id;
+        this.isEdit = tmpObj.isEdit;
+        this.itemId = tmpObj.item.id;
       }
     );
   }
 
   onSubmit() {
+    // Create function
     if (!this.isEdit) {
-      const item: Item = { status: 'active', ...this.addEditForm.value };
+      const isWarning: boolean = this._todoService.checkDeadline(
+        this.addEditForm.value.due,
+        ItemStatus.ACTIVE
+      );
 
-      this._todoService.addItem(item).subscribe({
+      const item: Item = {
+        ...this.addEditForm.value,
+        status: ItemStatus.ACTIVE,
+        isWarning: isWarning,
+      };
+
+      this._todoService.addItemByAPI(item).subscribe({
         next: () => {
           this.addEditForm.reset({ name: '', due: '' });
         },
@@ -53,14 +64,22 @@ export class FormComponent implements OnInit {
           console.log(err);
         },
       });
-    } else {
+    }
+    // Update function
+    else {
+      const isWarning: boolean = this._todoService.checkDeadline(
+        this.addEditForm.value.due,
+        ItemStatus.ACTIVE
+      );
+
       const item: Item = {
         id: this.itemId,
-        status: 'active',
+        status: ItemStatus.ACTIVE,
+        isWarning: isWarning,
         ...this.addEditForm.value,
       };
 
-      this._todoService.updateItem(item).subscribe({
+      this._todoService.updateItemByAPI(item).subscribe({
         next: () => {
           this.addEditForm.reset({ name: '', due: '' });
           this.isEdit = false;
