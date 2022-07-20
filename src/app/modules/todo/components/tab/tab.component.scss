@@ -1,11 +1,10 @@
-@import "../../../../constants/variables";
 
 .bottom-line {
   content: "";
   width: 100%;
   height: 2px;
 
-  background-color: $blue-color;
+  background-color: var(--blue-color);
 
   position: absolute;
   bottom: -1px;
@@ -15,7 +14,7 @@
 }
 
 .is-active {
-  color: $blue-color !important;
+  color: var(--blue-color) !important;
 }
 
 .tab {
@@ -30,7 +29,7 @@
 
   &__btn {
     border: none;
-    background-color: $white-color;
+    background-color: var(--white-color);
     color: rgba(0, 0, 0, 0.6);
 
     position: relative;
