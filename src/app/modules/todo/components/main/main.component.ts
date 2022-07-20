@@ -28,6 +28,7 @@ export class MainComponent implements OnInit {
       } else {
         this.itemState = tabState;
         this.getItemsByStatus(tabState);
+        this.getTotalAmount();
         this.getCountByStatus(tabState);
       }
     });
@@ -113,8 +114,6 @@ export class MainComponent implements OnInit {
 
           return item;
         });
-
-        this.totalItem = response.count;
       },
       error: (err) => {
         console.log(err);
@@ -126,6 +125,17 @@ export class MainComponent implements OnInit {
     this._todoService.getItemsByStatusByAPI(status).subscribe({
       next: (response) => {
         this.countItem = response.count;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  getTotalAmount(): void {
+    this._todoService.getAllItemsByAPI().subscribe({
+      next: (response) => {
+        this.totalItem = response.count;
       },
       error: (err) => {
         console.log(err);
