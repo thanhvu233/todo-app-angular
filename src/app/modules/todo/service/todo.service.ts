@@ -22,6 +22,18 @@ export class TodoService {
 
   constructor(private http: HttpClient) {}
 
+  get refreshPage() {
+    return this._refreshPage;
+  }
+
+  get tabState() {
+    return this._tabState;
+  }
+  
+  get editItem() {
+    return this._editItem;
+  }
+
   getAllItemsByAPI(): Observable<IResponse> {
     return this.http.get<IResponse>(this.baseUrl + '/items');
   }

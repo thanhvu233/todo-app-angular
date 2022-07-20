@@ -1,4 +1,4 @@
-import { Component, OnInit, SimpleChanges } from '@angular/core';
+import { Component, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { ItemStatus } from 'src/app/constants/itemStatus';
 import { TabState } from 'src/app/constants/tabState';
@@ -10,7 +10,7 @@ import { TodoService } from '../../service/todo.service';
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.scss'],
 })
-export class FormComponent implements OnInit {
+export class FormComponent implements OnInit, OnDestroy {
   public tabState: string = TabState.ALL;
 
   constructor(private _todoService: TodoService, private fb: FormBuilder) {}
@@ -52,6 +52,11 @@ export class FormComponent implements OnInit {
         console.log(err);
       },
     });
+  }
+
+  ngOnDestroy(): void {
+    this._todoService.editItem.unsubscribe();
+    this._todoService.tabState.unsubscribe();
   }
 
   onSubmit() {

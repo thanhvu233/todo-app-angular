@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ItemStatus } from 'src/app/constants/itemStatus';
 import { TabState } from 'src/app/constants/tabState';
 import { Item } from 'src/app/models/item';
@@ -9,7 +9,7 @@ import { TodoService } from '../../service/todo.service';
   templateUrl: './main.component.html',
   styleUrls: ['./main.component.scss'],
 })
-export class MainComponent implements OnInit {
+export class MainComponent implements OnInit, OnDestroy {
   public itemArr: Item[] = [];
   public totalItem: number = 0;
   public countItem: number = 0;
@@ -34,6 +34,10 @@ export class MainComponent implements OnInit {
 
     this.getAllItems();
     this.getItemCountByStatus(ItemStatus.ACTIVE);
+  }
+
+  ngOnDestroy(): void {
+    this._todoService.refreshPage.unsubscribe();
   }
 
   handleDelete(id: number): void {
