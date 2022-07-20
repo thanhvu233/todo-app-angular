@@ -6,8 +6,9 @@ import { CounterComponent } from './components/counter/counter.component';
 import { FormComponent } from './components/form/form.component';
 import { ListItemComponent } from './components/list-item/list-item.component';
 import { MainComponent } from './components/main/main.component';
-import { TodoComponent } from './todo.component';
 import { TabComponent } from './components/tab/tab.component';
+import { TodoService } from './service/todo.service';
+import { TodoComponent } from './todo.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,8 @@ import { TabComponent } from './components/tab/tab.component';
     CounterComponent,
     ListItemComponent,
     TodoComponent,
+    TabComponent,
   ],
+  providers: [TodoService],
 })
 export class TodoModule {}

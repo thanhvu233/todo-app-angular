@@ -7,9 +7,7 @@ import { IResponse } from 'src/app/interfaces/response';
 import { Item } from 'src/app/models/item';
 import { environment } from 'src/environments/environment';
 
-@Injectable({
-  providedIn: 'root',
-})
+@Injectable()
 export class TodoService {
   baseUrl: string = environment.baseUrl;
 
