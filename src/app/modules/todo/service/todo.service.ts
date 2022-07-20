@@ -3,8 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { ItemStatus } from 'src/app/constants/itemStatus';
-import { IResponse } from 'src/app/interfaces/response';
-import { Item } from 'src/app/models/item';
+import { Item } from 'src/app/interfaces/item';
 import { environment } from 'src/environments/environment';
 
 @Injectable()
@@ -29,13 +28,13 @@ export class TodoService {
   get tabState() {
     return this._tabState;
   }
-  
+
   get editItem() {
     return this._editItem;
   }
 
-  getAllItemsByAPI(): Observable<IResponse> {
-    return this.http.get<IResponse>(this.baseUrl + '/items');
+  getAllItemsByAPI(): Observable<Item[]> {
+    return this.http.get<Item[]>(this.baseUrl + '/items');
   }
 
   addItemByAPI(item: Item, tabState: string): Observable<Item> {
@@ -54,8 +53,8 @@ export class TodoService {
       .pipe(tap(() => this._refreshPage.next(tabState)));
   }
 
-  getItemsByStatusByAPI(status: string): Observable<IResponse> {
-    return this.http.get<IResponse>(this.baseUrl + `/items?status=${status}`);
+  getItemsByStatusByAPI(status: string): Observable<Item[]> {
+    return this.http.get<Item[]>(this.baseUrl + `/items?status=${status}`);
   }
 
   updateItemByAPI(item: Item, tabState: string): Observable<Item> {

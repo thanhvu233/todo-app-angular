@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { ItemStatus } from 'src/app/constants/itemStatus';
 import { TabState } from 'src/app/constants/tabState';
-import { Item } from 'src/app/models/item';
+import { Item } from 'src/app/interfaces/item';
 import { TodoService } from '../../service/todo.service';
 
 @Component({

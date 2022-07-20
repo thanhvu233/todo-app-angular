@@ -1,7 +1,7 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ItemStatus } from 'src/app/constants/itemStatus';
 import { TabState } from 'src/app/constants/tabState';
-import { Item } from 'src/app/models/item';
+import { Item } from 'src/app/interfaces/item';
 import { TodoService } from '../../service/todo.service';
 
 @Component({
@@ -94,7 +94,7 @@ export class MainComponent implements OnInit, OnDestroy {
       next: (response) => {
         let updatedItem: Item;
 
-        this.itemArr = response.data.map((item) => {
+        this.itemArr = response.map((item) => {
           const isWarning = this._todoService.checkDeadline(
             item.due,
             item.status
@@ -121,7 +121,7 @@ export class MainComponent implements OnInit, OnDestroy {
   getItemCountByStatus(status: string): void {
     this._todoService.getItemsByStatusByAPI(status).subscribe({
       next: (response) => {
-        this.countItem = response.count;
+        this.countItem = response.length;
       },
       error: (err) => {
         console.log(err);
@@ -132,7 +132,7 @@ export class MainComponent implements OnInit, OnDestroy {
   getTotalAmount(): void {
     this._todoService.getAllItemsByAPI().subscribe({
       next: (response) => {
-        this.totalItem = response.count;
+        this.totalItem = response.length;
       },
       error: (err) => {
         console.log(err);
@@ -145,7 +145,7 @@ export class MainComponent implements OnInit, OnDestroy {
       next: (response) => {
         let updatedItem: Item;
 
-        this.itemArr = response.data.map((item) => {
+        this.itemArr = response.map((item) => {
           const isWarning = this._todoService.checkDeadline(
             item.due,
             item.status
@@ -163,7 +163,7 @@ export class MainComponent implements OnInit, OnDestroy {
           return item;
         });
 
-        this.totalItem = response.count;
+        this.totalItem = response.length;
       },
       error: (err) => {
         console.log(err);
