@@ -15,7 +15,7 @@ export class TodoService {
 
   private _refreshPage = new Subject<string>();
   refreshPage$ = this._refreshPage.asObservable();
- 
+
   private _tabState = new Subject<string>();
   tabState$ = this._tabState.asObservable();
 
@@ -38,8 +38,10 @@ export class TodoService {
     return this.http.delete<Item>(this.baseUrl + `/items/${id}`);
   }
 
-  accomplishItemByAPI(item: Item): Observable<Item> {
-    return this.http.put<Item>(this.baseUrl + `/items/${item.id}`, item);
+  accomplishItemByAPI(item: Item, tabState: string): Observable<Item> {
+    return this.http
+      .put<Item>(this.baseUrl + `/items/${item.id}`, item)
+      .pipe(tap(() => this._refreshPage.next(tabState)));
   }
 
   getItemsByStatusByAPI(status: string): Observable<IResponse> {
@@ -53,14 +55,15 @@ export class TodoService {
   }
 
   updateDeadlineByAPI(item: Item): Observable<Item> {
-    return this.http
-      .put<Item>(this.baseUrl + `/items/${item.id}`, { isWarning: true })
+    return this.http.put<Item>(this.baseUrl + `/items/${item.id}`, {
+      isWarning: true,
+    });
   }
 
   sendItem(item: Item, isEdit: boolean): void {
     this._editItem.next({ item: item, isEdit: isEdit });
   }
- 
+
   sendTabState(tabState: string): void {
     this._tabState.next(tabState);
   }

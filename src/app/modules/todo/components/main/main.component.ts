@@ -13,6 +13,7 @@ export class MainComponent implements OnInit {
   public totalItem: number = 0;
   public countItem: number = 0;
   public itemState: string = ItemStatus.ACTIVE;
+  public tabState: string = 'all';
 
   constructor(private _todoService: TodoService) {}
 
@@ -54,24 +55,18 @@ export class MainComponent implements OnInit {
       isWarning: false,
     };
 
-    this._todoService.accomplishItemByAPI(completedItem).subscribe({
-      next: (data) => {
-        this.getCountByStatus(this.itemState);
-        this.itemArr = this.itemArr.map((item: Item) => {
-          if (item.id === data.id) {
-            return { ...data };
-          }
-
-          return item;
-        });
-      },
-      error: (err) => {
-        console.log(err);
-      },
-    });
+    this._todoService
+      .accomplishItemByAPI(completedItem, this.tabState)
+      .subscribe({
+        next: (data) => {},
+        error: (err) => {
+          console.log(err);
+        },
+      });
   }
 
   handleTabClick(tabState: string): void {
+    this.tabState = tabState;
     this._todoService.sendTabState(tabState);
 
     if (tabState == 'all') {
