@@ -18,9 +18,6 @@ export class MainComponent implements OnInit {
 
   ngOnInit(): void {
     this._todoService.refreshPage$.subscribe((tabState) => {
-      // this.getAllItems();
-      // this.getCountByStatus(ItemStatus.ACTIVE);
-
       if (tabState == 'all') {
         this.getAllItems();
         this.itemState = ItemStatus.ACTIVE;

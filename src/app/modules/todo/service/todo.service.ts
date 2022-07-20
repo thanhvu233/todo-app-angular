@@ -46,10 +46,10 @@ export class TodoService {
     return this.http.get<IResponse>(this.baseUrl + `/items?status=${status}`);
   }
 
-  updateItemByAPI(item: Item): Observable<Item> {
+  updateItemByAPI(item: Item, tabState: string): Observable<Item> {
     return this.http
       .put<Item>(this.baseUrl + `/items/${item.id}`, item)
-      .pipe(tap(() => this._refreshPage.next()));
+      .pipe(tap(() => this._refreshPage.next(tabState)));
   }
 
   updateDeadlineByAPI(item: Item): Observable<Item> {

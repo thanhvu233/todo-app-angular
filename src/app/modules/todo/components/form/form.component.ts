@@ -92,7 +92,7 @@ export class FormComponent implements OnInit {
         ...this.addEditForm.value,
       };
 
-      this._todoService.updateItemByAPI(item).subscribe({
+      this._todoService.updateItemByAPI(item, this.tabState).subscribe({
         next: () => {
           this.addEditForm.reset({ name: '', due: '' });
           this.isEdit = false;
