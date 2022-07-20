@@ -23,17 +23,17 @@ export class MainComponent implements OnInit {
       if (tabState == TabState.ALL) {
         this.getAllItems();
         this.itemState = ItemStatus.ACTIVE;
-        this.getCountByStatus(ItemStatus.ACTIVE);
+        this.getItemCountByStatus(ItemStatus.ACTIVE);
       } else {
         this.itemState = tabState;
         this.getItemsByStatus(tabState);
         this.getTotalAmount();
-        this.getCountByStatus(tabState);
+        this.getItemCountByStatus(tabState);
       }
     });
 
     this.getAllItems();
-    this.getCountByStatus(ItemStatus.ACTIVE);
+    this.getItemCountByStatus(ItemStatus.ACTIVE);
   }
 
   handleDelete(id: number): void {
@@ -41,7 +41,7 @@ export class MainComponent implements OnInit {
       next: (data) => {
         this.itemArr = this.itemArr.filter((item) => item.id !== data.id);
         this.totalItem--;
-        this.getCountByStatus(this.itemState);
+        this.getItemCountByStatus(this.itemState);
       },
       error: (err) => {
         console.log(err);
@@ -78,7 +78,7 @@ export class MainComponent implements OnInit {
       this.getItemsByStatus(tabState);
     }
 
-    this.getCountByStatus(this.itemState);
+    this.getItemCountByStatus(this.itemState);
   }
 
   handleEdit(item: Item): void {
@@ -114,7 +114,7 @@ export class MainComponent implements OnInit {
     });
   }
 
-  getCountByStatus(status: string): void {
+  getItemCountByStatus(status: string): void {
     this._todoService.getItemsByStatusByAPI(status).subscribe({
       next: (response) => {
         this.countItem = response.count;
