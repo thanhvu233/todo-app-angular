@@ -60,53 +60,53 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-    // Create function
+    const isWarning: boolean = this._todoService.checkDeadline(
+      this.addEditForm.value.due,
+      ItemStatus.ACTIVE
+    );
+
     if (!this.isEdit) {
-      const isWarning: boolean = this._todoService.checkDeadline(
-        this.addEditForm.value.due,
-        ItemStatus.ACTIVE
-      );
-
-      const item: Item = {
-        ...this.addEditForm.value,
-        status: ItemStatus.ACTIVE,
-        isWarning: isWarning,
-      };
-
-      // tabState parameter will let we know which tab view
-      // will be rendered
-      this._todoService.addItemByAPI(item, this.tabState).subscribe({
-        next: () => {
-          this.addEditForm.reset({ name: '', due: '' });
-        },
-        error: (err) => {
-          console.log(err);
-        },
-      });
+      this.createItem(isWarning);
+    } else {
+      this.updateItem(isWarning);
     }
-    // Update function
-    else {
-      const isWarning: boolean = this._todoService.checkDeadline(
-        this.addEditForm.value.due,
-        ItemStatus.ACTIVE
-      );
+  }
 
-      const item: Item = {
-        id: this.itemId,
-        status: ItemStatus.ACTIVE,
-        isWarning: isWarning,
-        ...this.addEditForm.value,
-      };
+  createItem(isWarning: boolean): void {
+    const item: Item = {
+      ...this.addEditForm.value,
+      status: ItemStatus.ACTIVE,
+      isWarning: isWarning,
+    };
 
-      this._todoService.updateItemByAPI(item, this.tabState).subscribe({
-        next: () => {
-          this.addEditForm.reset({ name: '', due: '' });
-          this.isEdit = false;
-        },
-        error: (err) => {
-          console.log(err);
-        },
-      });
-    }
+    // tabState parameter will let we know which tab view
+    // will be rendered
+    this._todoService.addItemByAPI(item, this.tabState).subscribe({
+      next: () => {
+        this.addEditForm.reset({ name: '', due: '' });
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
+  }
+
+  updateItem(isWarning: boolean): void {
+    const item: Item = {
+      id: this.itemId,
+      status: ItemStatus.ACTIVE,
+      isWarning: isWarning,
+      ...this.addEditForm.value,
+    };
+
+    this._todoService.updateItemByAPI(item, this.tabState).subscribe({
+      next: () => {
+        this.addEditForm.reset({ name: '', due: '' });
+        this.isEdit = false;
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 }
