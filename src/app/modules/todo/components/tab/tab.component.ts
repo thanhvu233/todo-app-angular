@@ -1,4 +1,5 @@
 import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { TabState } from 'src/app/constants/tabState';
 
 @Component({
   selector: 'app-tab',
@@ -28,7 +29,7 @@ export class TabComponent implements OnInit {
       active: false,
       completed: false,
     };
-    this.tabEvent.emit('all');
+    this.tabEvent.emit(TabState.ALL);
   }
 
   onClickActive(): void {
@@ -37,7 +38,7 @@ export class TabComponent implements OnInit {
       active: true,
       completed: false,
     };
-    this.tabEvent.emit('active');
+    this.tabEvent.emit(TabState.ACTIVE);
   }
 
   onClickCompleted(): void {
@@ -46,6 +47,6 @@ export class TabComponent implements OnInit {
       active: false,
       completed: true,
     };
-    this.tabEvent.emit('completed');
+    this.tabEvent.emit(TabState.COMPLETED);
   }
 }

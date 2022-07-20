@@ -1,6 +1,7 @@
 import { Component, OnInit, SimpleChanges } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
 import { ItemStatus } from 'src/app/constants/itemStatus';
+import { TabState } from 'src/app/constants/tabState';
 import { Item } from 'src/app/models/item';
 import { TodoService } from '../../service/todo.service';
 
@@ -10,7 +11,7 @@ import { TodoService } from '../../service/todo.service';
   styleUrls: ['./form.component.scss'],
 })
 export class FormComponent implements OnInit {
-  public tabState: string = 'all';
+  public tabState: string = TabState.ALL;
 
   constructor(private _todoService: TodoService, private fb: FormBuilder) {}
 

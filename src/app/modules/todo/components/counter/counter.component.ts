@@ -1,4 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ItemStatus } from 'src/app/constants/itemStatus';
 
 @Component({
   selector: 'app-counter',
@@ -8,7 +9,7 @@ import { Component, Input, OnInit } from '@angular/core';
 export class CounterComponent implements OnInit {
   @Input() public totalItem: number = 0;
   @Input() public countItem: number = 0;
-  @Input() public itemState: string = 'active';
+  @Input() public itemState: string = ItemStatus.ACTIVE;
 
   constructor() {}
 

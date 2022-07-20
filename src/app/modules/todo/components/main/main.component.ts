@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ItemStatus } from 'src/app/constants/itemStatus';
+import { TabState } from 'src/app/constants/tabState';
 import { Item } from 'src/app/models/item';
 import { TodoService } from '../../service/todo.service';
 
@@ -13,13 +14,13 @@ export class MainComponent implements OnInit {
   public totalItem: number = 0;
   public countItem: number = 0;
   public itemState: string = ItemStatus.ACTIVE;
-  public tabState: string = 'all';
+  public tabState: string = TabState.ALL;
 
   constructor(private _todoService: TodoService) {}
 
   ngOnInit(): void {
     this._todoService.refreshPage$.subscribe((tabState) => {
-      if (tabState == 'all') {
+      if (tabState == TabState.ALL) {
         this.getAllItems();
         this.itemState = ItemStatus.ACTIVE;
         this.getCountByStatus(ItemStatus.ACTIVE);
@@ -69,7 +70,7 @@ export class MainComponent implements OnInit {
     this.tabState = tabState;
     this._todoService.sendTabState(tabState);
 
-    if (tabState == 'all') {
+    if (tabState == TabState.ALL) {
       this.itemState = ItemStatus.ACTIVE;
       this.getAllItems();
     } else {
