@@ -11,6 +11,10 @@
   & img {
     transform: translateX(11px);
   }
+
+  &:hover {
+    opacity: 0.8;
+  }
 }
 
 @mixin badge($background-color) {
