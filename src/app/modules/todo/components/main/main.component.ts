@@ -28,34 +28,49 @@ export class MainComponent implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    this._todoAPIService.refreshPage$.subscribe((tabState) => {
-      if (tabState == TabState.ALL) {
-        this._todoService.getAllItems();
-        this.itemState = ItemStatus.ACTIVE;
-        this._todoService.getItemCountByStatus(ItemStatus.ACTIVE);
-      } else {
-        this.itemState = tabState;
-        this._todoService.getItemsByStatus(tabState);
-        this._todoService.getTotalAmount();
-        this._todoService.getItemCountByStatus(tabState);
+    const refreshPageSubscription = this._todoAPIService.refreshPage$.subscribe(
+      (tabState) => {
+        if (tabState == TabState.ALL) {
+          this._todoService.getAllItems();
+          this.itemState = ItemStatus.ACTIVE;
+          this._todoService.getItemCountByStatus(ItemStatus.ACTIVE);
+        } else {
+          this.itemState = tabState;
+          this._todoService.getItemsByStatus(tabState);
+          this._todoService.getTotalAmount();
+          this._todoService.getItemCountByStatus(tabState);
+        }
       }
-    });
+    );
 
-    this._todoService.itemArr$.subscribe((itemArr) => {
-      this.itemArr = itemArr;
-    });
-    this._todoService.totalItem$.subscribe((totalItem) => {
-      this.totalItem = totalItem;
-    });
-    this._todoService.countItem$.subscribe((countItem) => {
-      this.countItem = countItem;
-    });
-    this._todoService.itemByStatusArr$.subscribe((itemArr) => {
-      this.itemArr = itemArr;
-    });
+    const itemArrSubscription = this._todoService.itemArr$.subscribe(
+      (itemArr) => {
+        this.itemArr = itemArr;
+      }
+    );
+    const totalItemSubscription = this._todoService.totalItem$.subscribe(
+      (totalItem) => {
+        this.totalItem = totalItem;
+      }
+    );
+    const countItemSubscription = this._todoService.countItem$.subscribe(
+      (countItem) => {
+        this.countItem = countItem;
+      }
+    );
+    const itemByStatusArrSubscription =
+      this._todoService.itemByStatusArr$.subscribe((itemArr) => {
+        this.itemArr = itemArr;
+      });
 
     this._todoService.getAllItems();
     this._todoService.getItemCountByStatus(ItemStatus.ACTIVE);
+
+    this.subscription.add(refreshPageSubscription);
+    this.subscription.add(itemArrSubscription);
+    this.subscription.add(totalItemSubscription);
+    this.subscription.add(countItemSubscription);
+    this.subscription.add(itemByStatusArrSubscription);
   }
 
   ngOnDestroy(): void {
