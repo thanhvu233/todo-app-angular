@@ -1,5 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { Subscription } from 'rxjs';
 import { ItemStatus } from 'src/app/constants/itemStatus';
 import { TabState } from 'src/app/constants/tabState';
 import { Item } from 'src/app/interfaces/item';
@@ -15,6 +16,7 @@ export class FormComponent implements OnInit, OnDestroy {
   public isLoading: boolean = false;
   public isEdit: boolean = false;
   public itemId: number = 0;
+  subscription: Subscription = new Subscription();
 
   constructor(private _todoService: TodoService, private fb: FormBuilder) {}
 
@@ -32,7 +34,7 @@ export class FormComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this._todoService.editItem$.subscribe(
+    const editItemSubscription = this._todoService.editItem$.subscribe(
       (tmpObj: { item: Item; isEdit: boolean }) => {
         this.addEditForm.setValue({
           name: tmpObj.item.name,
@@ -44,7 +46,7 @@ export class FormComponent implements OnInit, OnDestroy {
       }
     );
 
-    this._todoService.tabState$.subscribe({
+    const tabStateSubscription = this._todoService.tabState$.subscribe({
       next: (tabState: string) => {
         this.tabState = tabState;
       },
@@ -52,11 +54,13 @@ export class FormComponent implements OnInit, OnDestroy {
         console.log(err);
       },
     });
+
+    this.subscription.add(editItemSubscription);
+    this.subscription.add(tabStateSubscription);
   }
 
   ngOnDestroy(): void {
-    this._todoService.editItem.unsubscribe();
-    this._todoService.tabState.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   onSubmit() {

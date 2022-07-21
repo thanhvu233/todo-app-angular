@@ -1,4 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 import { ItemStatus } from 'src/app/constants/itemStatus';
 import { TabState } from 'src/app/constants/tabState';
 import { Item } from 'src/app/interfaces/item';
@@ -18,11 +19,12 @@ export class MainComponent implements OnInit, OnDestroy {
   public isLoading: boolean = false;
   public isConfirmModalOpen: boolean = false;
   public itemId: number = 0;
+  subscription: Subscription = new Subscription();
 
   constructor(private _todoService: TodoService) {}
 
   ngOnInit(): void {
-    this._todoService.refreshPage$.subscribe((tabState) => {
+    this.subscription = this._todoService.refreshPage$.subscribe((tabState) => {
       if (tabState == TabState.ALL) {
         this.getAllItems();
         this.itemState = ItemStatus.ACTIVE;
@@ -40,7 +42,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this._todoService.refreshPage.unsubscribe();
+    this.subscription.unsubscribe();
   }
 
   handleDeleteClick(id: number): void {
