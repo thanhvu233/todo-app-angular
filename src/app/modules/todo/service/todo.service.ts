@@ -6,7 +6,7 @@ import { ItemStatus } from 'src/app/constants/itemStatus';
 import { Item } from 'src/app/interfaces/item';
 import { environment } from 'src/environments/environment';
 
-@Injectable()
+@Injectable({ providedIn: null })
 export class TodoService {
   baseUrl: string = environment.baseUrl;
 
