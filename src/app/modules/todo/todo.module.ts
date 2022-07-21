@@ -9,6 +9,7 @@ import { FormComponent } from './components/form/form.component';
 import { ListItemComponent } from './components/list-item/list-item.component';
 import { MainComponent } from './components/main/main.component';
 import { TabComponent } from './components/tab/tab.component';
+import { TodoApiService } from './service/todo-api.service';
 import { TodoService } from './service/todo.service';
 import { TodoComponent } from './todo.component';
 
@@ -34,6 +35,6 @@ import { TodoComponent } from './todo.component';
     LoadingSpinnerComponent,
     ConfirmModalComponent,
   ],
-  providers: [TodoService],
+  providers: [TodoService, TodoApiService],
 })
 export class TodoModule {}

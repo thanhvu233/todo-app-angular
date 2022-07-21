@@ -4,6 +4,7 @@ import { Subscription } from 'rxjs';
 import { ItemStatus } from 'src/app/constants/itemStatus';
 import { TabState } from 'src/app/constants/tabState';
 import { Item } from 'src/app/interfaces/item';
+import { TodoApiService } from '../../service/todo-api.service';
 import { TodoService } from '../../service/todo.service';
 
 @Component({
@@ -36,7 +37,11 @@ export class FormComponent implements OnInit, OnDestroy {
     return this.addEditForm.get('due');
   }
 
-  constructor(private _todoService: TodoService, private fb: FormBuilder) {}
+  constructor(
+    private _todoService: TodoService,
+    private _todoAPIService: TodoApiService,
+    private fb: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     const editItemSubscription = this._todoService.editItem$.subscribe(
@@ -92,7 +97,7 @@ export class FormComponent implements OnInit, OnDestroy {
   // tabState parameter will let we know which tab view
   // will be rendered
   createItem(tabState: string, item: Item): void {
-    this._todoService.addItemByAPI(item, tabState).subscribe({
+    this._todoAPIService.addItemByAPI(item, tabState).subscribe({
       next: () => {
         this.addEditForm.reset({ name: '', due: '' });
         this.isLoading = false;
@@ -107,7 +112,7 @@ export class FormComponent implements OnInit, OnDestroy {
   // tabState parameter will let we know which tab view
   // will be rendered
   updateItem(tabState: string, item: Item): void {
-    this._todoService.updateItemByAPI(item, tabState).subscribe({
+    this._todoAPIService.updateItemByAPI(item, tabState).subscribe({
       next: () => {
         this.addEditForm.reset({ name: '', due: '' });
         this.isEdit = false;

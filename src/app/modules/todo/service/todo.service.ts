@@ -1,71 +1,124 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { ItemStatus } from 'src/app/constants/itemStatus';
 import { Item } from 'src/app/interfaces/item';
-import { environment } from 'src/environments/environment';
+import { TodoApiService } from './todo-api.service';
 
 @Injectable({ providedIn: 'any' })
 export class TodoService {
-  baseUrl: string = environment.baseUrl;
+  public itemArr: Item[] = [];
+  public countItem: number = 0;
+  public totalItem: number = 0;
 
-  private _refreshPage = new Subject<string>();
-  refreshPage$ = this._refreshPage.asObservable();
+  constructor(private _todoAPIService: TodoApiService) {}
 
-  private _tabState = new Subject<string>();
-  tabState$ = this._tabState.asObservable();
+  private _tabState: Subject<string> = new Subject<string>();
+  tabState$: Observable<string> = this._tabState.asObservable();
 
-  private _editItem = new Subject<{ item: Item; isEdit: boolean }>();
-  editItem$ = this._editItem.asObservable();
+  private _editItem: Subject<{ item: Item; isEdit: boolean }> = new Subject<{
+    item: Item;
+    isEdit: boolean;
+  }>();
+  editItem$: Observable<{
+    item: Item;
+    isEdit: boolean;
+  }> = this._editItem.asObservable();
 
-  constructor(private http: HttpClient) {}
+  private _itemArr: Subject<Item[]> = new Subject<Item[]>();
+  itemArr$: Observable<Item[]> = this._itemArr.asObservable();
 
-  get refreshPage() {
-    return this._refreshPage;
+  private _itemByStatusArr: Subject<Item[]> = new Subject<Item[]>();
+  itemByStatusArr$: Observable<Item[]> = this._itemByStatusArr.asObservable();
+
+  private _countItem: Subject<number> = new Subject<number>();
+  countItem$: Observable<number> = this._countItem.asObservable();
+
+  private _totalItem: Subject<number> = new Subject<number>();
+  totalItem$: Observable<number> = this._totalItem.asObservable();
+
+  getItemsByStatus(status: string): void {
+    this._todoAPIService.getItemsByStatusByAPI(status).subscribe({
+      next: (response) => {
+        let updatedItem: Item;
+
+        this.itemArr = response.map((item) => {
+          const isWarning = this.checkDeadline(item.due, item.status);
+
+          if (isWarning) {
+            updatedItem = { ...item, isWarning: isWarning };
+
+            this._todoAPIService
+              .updateDeadlineByAPI(updatedItem)
+              .subscribe(() => {});
+            return updatedItem;
+          }
+
+          return item;
+        });
+
+        this._itemByStatusArr.next(this.itemArr);
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 
-  get tabState() {
-    return this._tabState;
+  getItemCountByStatus(status: string): void {
+    this._todoAPIService.getItemsByStatusByAPI(status).subscribe({
+      next: (response) => {
+        this.countItem = response.length;
+
+        this._countItem.next(this.countItem);
+
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 
-  get editItem() {
-    return this._editItem;
+  getTotalAmount(): void {
+    this._todoAPIService.getAllItemsByAPI().subscribe({
+      next: (response) => {
+        this.totalItem = response.length;
+
+        this._totalItem.next(this.totalItem)
+      },
+      error: (err) => {
+        console.log(err);
+      },
+    });
   }
 
-  getAllItemsByAPI(): Observable<Item[]> {
-    return this.http.get<Item[]>(this.baseUrl + '/items');
-  }
+  getAllItems(): void {
+    this._todoAPIService.getAllItemsByAPI().subscribe({
+      next: (response) => {
+        let updatedItem: Item;
 
-  addItemByAPI(item: Item, tabState: string): Observable<Item> {
-    return this.http
-      .post<Item>(this.baseUrl + '/items', item)
-      .pipe(tap(() => this._refreshPage.next(tabState)));
-  }
+        this.itemArr = response.map((item) => {
+          const isWarning = this.checkDeadline(item.due, item.status);
 
-  deleteItemByAPI(id: number): Observable<Item> {
-    return this.http.delete<Item>(this.baseUrl + `/items/${id}`);
-  }
+          if (isWarning) {
+            updatedItem = { ...item, isWarning: isWarning };
 
-  accomplishItemByAPI(item: Item, tabState: string): Observable<Item> {
-    return this.http
-      .put<Item>(this.baseUrl + `/items/${item.id}`, item)
-      .pipe(tap(() => this._refreshPage.next(tabState)));
-  }
+            this._todoAPIService
+              .updateDeadlineByAPI(updatedItem)
+              .subscribe(() => {});
+            return updatedItem;
+          }
 
-  getItemsByStatusByAPI(status: string): Observable<Item[]> {
-    return this.http.get<Item[]>(this.baseUrl + `/items?status=${status}`);
-  }
+          return item;
+        });
 
-  updateItemByAPI(item: Item, tabState: string): Observable<Item> {
-    return this.http
-      .put<Item>(this.baseUrl + `/items/${item.id}`, item)
-      .pipe(tap(() => this._refreshPage.next(tabState)));
-  }
+        this.totalItem = response.length;
 
-  updateDeadlineByAPI(item: Item): Observable<Item> {
-    return this.http.put<Item>(this.baseUrl + `/items/${item.id}`, {
-      isWarning: true,
+        this._itemArr.next(this.itemArr);
+        this._totalItem.next(this.totalItem);
+      },
+      error: (err) => {
+        console.log(err);
+      },
     });
   }
 
