@@ -16,6 +16,8 @@ export class MainComponent implements OnInit, OnDestroy {
   public itemState: string = ItemStatus.ACTIVE;
   public tabState: string = TabState.ALL;
   public isLoading: boolean = false;
+  public isConfirmModalOpen: boolean = false;
+  public itemId: number = 0;
 
   constructor(private _todoService: TodoService) {}
 
@@ -41,21 +43,9 @@ export class MainComponent implements OnInit, OnDestroy {
     this._todoService.refreshPage.unsubscribe();
   }
 
-  handleDelete(id: number): void {
-    this.isLoading = true;
-
-    this._todoService.deleteItemByAPI(id).subscribe({
-      next: (data) => {
-        this.itemArr = this.itemArr.filter((item) => item.id !== data.id);
-        this.totalItem--;
-        this.getItemCountByStatus(this.itemState);
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.log(err);
-        this.isLoading = false;
-      },
-    });
+  handleDeleteClick(id: number): void {
+    this.isConfirmModalOpen = true;
+    this.itemId = id;
   }
 
   handleAccomplish(item: Item): void {
@@ -177,6 +167,28 @@ export class MainComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         console.log(err);
+      },
+    });
+  }
+
+  handleCloseConfirmDelete(): void {
+    this.isConfirmModalOpen = false;
+  }
+
+  handleDeleteItem(): void {
+    this.handleCloseConfirmDelete();
+    this.isLoading = true;
+
+    this._todoService.deleteItemByAPI(this.itemId).subscribe({
+      next: (data) => {
+        this.itemArr = this.itemArr.filter((item) => item.id !== data.id);
+        this.totalItem--;
+        this.getItemCountByStatus(this.itemState);
+        this.isLoading = false;
+      },
+      error: (err) => {
+        console.log(err);
+        this.isLoading = false;
       },
     });
   }

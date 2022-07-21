@@ -1,6 +1,12 @@
 <div *ngIf="isLoading">
   <app-loading-spinner></app-loading-spinner>
 </div>
+<app-confirm-modal
+  *ngIf="isConfirmModalOpen"
+  [isConfirmModalOpen]="isConfirmModalOpen"
+  (closeModalEvent)="handleCloseConfirmDelete()"
+  (deleteEvent)="handleDeleteItem()"
+></app-confirm-modal>
 <div class="main">
   <app-tab (tabEvent)="handleTabClick($event)"></app-tab>
   <app-counter
@@ -10,7 +16,7 @@
   ></app-counter>
   <app-list-item
     [itemArr]="itemArr"
-    (deleteEvent)="handleDelete($event)"
+    (deleteEvent)="handleDeleteClick($event)"
     (accomplishEvent)="handleAccomplish($event)"
     (editEvent)="handleEdit($event)"
   ></app-list-item>
