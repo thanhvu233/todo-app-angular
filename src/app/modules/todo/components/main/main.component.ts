@@ -15,6 +15,7 @@ export class MainComponent implements OnInit, OnDestroy {
   public countItem: number = 0;
   public itemState: string = ItemStatus.ACTIVE;
   public tabState: string = TabState.ALL;
+  public isLoading: boolean = false;
 
   constructor(private _todoService: TodoService) {}
 
@@ -41,14 +42,18 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   handleDelete(id: number): void {
+    this.isLoading = true;
+
     this._todoService.deleteItemByAPI(id).subscribe({
       next: (data) => {
         this.itemArr = this.itemArr.filter((item) => item.id !== data.id);
         this.totalItem--;
         this.getItemCountByStatus(this.itemState);
+        this.isLoading = false;
       },
       error: (err) => {
         console.log(err);
+        this.isLoading = false;
       },
     });
   }
@@ -60,12 +65,17 @@ export class MainComponent implements OnInit, OnDestroy {
       isWarning: false,
     };
 
+    this.isLoading = true;
+
     this._todoService
       .accomplishItemByAPI(completedItem, this.tabState)
       .subscribe({
-        next: (data) => {},
+        next: (data) => {
+          this.isLoading = false;
+        },
         error: (err) => {
           console.log(err);
+          this.isLoading = false;
         },
       });
   }

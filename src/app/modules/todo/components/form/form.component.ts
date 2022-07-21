@@ -12,6 +12,7 @@ import { TodoService } from '../../service/todo.service';
 })
 export class FormComponent implements OnInit, OnDestroy {
   public tabState: string = TabState.ALL;
+  public isLoading: boolean = false;
 
   constructor(private _todoService: TodoService, private fb: FormBuilder) {}
 
@@ -65,6 +66,8 @@ export class FormComponent implements OnInit, OnDestroy {
       ItemStatus.ACTIVE
     );
 
+    this.isLoading = true;
+
     if (!this.isEdit) {
       this.createItem(isWarning);
     } else {
@@ -84,9 +87,11 @@ export class FormComponent implements OnInit, OnDestroy {
     this._todoService.addItemByAPI(item, this.tabState).subscribe({
       next: () => {
         this.addEditForm.reset({ name: '', due: '' });
+        this.isLoading = false;
       },
       error: (err) => {
         console.log(err);
+        this.isLoading = false;
       },
     });
   }
@@ -103,9 +108,11 @@ export class FormComponent implements OnInit, OnDestroy {
       next: () => {
         this.addEditForm.reset({ name: '', due: '' });
         this.isEdit = false;
+        this.isLoading = false;
       },
       error: (err) => {
         console.log(err);
+        this.isLoading = false;
       },
     });
   }

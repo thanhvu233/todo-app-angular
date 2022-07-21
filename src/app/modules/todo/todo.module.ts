@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { LoadingSpinnerComponent } from 'src/app/shared/loading-spinner/loading-spinner.component';
 import { CounterComponent } from './components/counter/counter.component';
 import { FormComponent } from './components/form/form.component';
 import { ListItemComponent } from './components/list-item/list-item.component';
@@ -18,6 +19,7 @@ import { TodoComponent } from './todo.component';
     ListItemComponent,
     TodoComponent,
     TabComponent,
+    LoadingSpinnerComponent
   ],
   imports: [CommonModule, HttpClientModule, FormsModule, ReactiveFormsModule],
   exports: [
@@ -27,6 +29,7 @@ import { TodoComponent } from './todo.component';
     ListItemComponent,
     TodoComponent,
     TabComponent,
+    LoadingSpinnerComponent
   ],
   providers: [TodoService],
 })

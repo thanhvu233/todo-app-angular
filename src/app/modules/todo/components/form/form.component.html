@@ -1,3 +1,7 @@
+<div *ngIf="isLoading">
+  <app-loading-spinner></app-loading-spinner>
+</div>
+<h1 class="app-title">TODO APP</h1>
 <form class="form" [formGroup]="addEditForm">
   <div class="item-name">
     <label>Name:</label>
