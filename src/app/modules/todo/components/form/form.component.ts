@@ -15,15 +15,18 @@ export class FormComponent implements OnInit, OnDestroy {
   public tabState: string = TabState.ALL;
   public isLoading: boolean = false;
   public isEdit: boolean = false;
-  public itemId: number = 0;
-  subscription: Subscription = new Subscription();
-
-  constructor(private _todoService: TodoService, private fb: FormBuilder) {}
-
   public addEditForm = this.fb.group({
     name: ['', [Validators.required]],
     due: ['', [Validators.required]],
   });
+  public item: Item = {
+    name: '',
+    due: '',
+    status: ItemStatus.ACTIVE,
+    isWarning: false,
+    id: 0,
+  };
+  subscription: Subscription = new Subscription();
 
   get name(): AbstractControl | null {
     return this.addEditForm.get('name');
@@ -32,6 +35,8 @@ export class FormComponent implements OnInit, OnDestroy {
   get due(): AbstractControl | null {
     return this.addEditForm.get('due');
   }
+
+  constructor(private _todoService: TodoService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     const editItemSubscription = this._todoService.editItem$.subscribe(
@@ -42,7 +47,7 @@ export class FormComponent implements OnInit, OnDestroy {
         });
 
         this.isEdit = tmpObj.isEdit;
-        this.itemId = tmpObj.item.id;
+        this.item = { ...this.item, ...tmpObj.item };
       }
     );
 
@@ -69,25 +74,25 @@ export class FormComponent implements OnInit, OnDestroy {
       ItemStatus.ACTIVE
     );
 
-    this.isLoading = true;
-
-    if (!this.isEdit) {
-      this.createItem(isWarning);
-    } else {
-      this.updateItem(isWarning);
-    }
-  }
-
-  createItem(isWarning: boolean): void {
-    const item: Item = {
+    this.item = {
+      ...this.item,
       ...this.addEditForm.value,
-      status: ItemStatus.ACTIVE,
       isWarning: isWarning,
     };
 
-    // tabState parameter will let we know which tab view
-    // will be rendered
-    this._todoService.addItemByAPI(item, this.tabState).subscribe({
+    this.isLoading = true;
+
+    if (!this.isEdit) {
+      this.createItem(this.tabState, this.item);
+    } else {
+      this.updateItem(this.tabState, this.item);
+    }
+  }
+
+  // tabState parameter will let we know which tab view
+  // will be rendered
+  createItem(tabState: string, item: Item): void {
+    this._todoService.addItemByAPI(item, tabState).subscribe({
       next: () => {
         this.addEditForm.reset({ name: '', due: '' });
         this.isLoading = false;
@@ -99,15 +104,10 @@ export class FormComponent implements OnInit, OnDestroy {
     });
   }
 
-  updateItem(isWarning: boolean): void {
-    const item: Item = {
-      id: this.itemId,
-      status: ItemStatus.ACTIVE,
-      isWarning: isWarning,
-      ...this.addEditForm.value,
-    };
-
-    this._todoService.updateItemByAPI(item, this.tabState).subscribe({
+  // tabState parameter will let we know which tab view
+  // will be rendered
+  updateItem(tabState: string, item: Item): void {
+    this._todoService.updateItemByAPI(item, tabState).subscribe({
       next: () => {
         this.addEditForm.reset({ name: '', due: '' });
         this.isEdit = false;
