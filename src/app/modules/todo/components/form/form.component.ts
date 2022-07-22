@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { AbstractControl, FormBuilder, Validators } from '@angular/forms';
+import { AbstractControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ItemStatus } from 'src/app/constants/itemStatus';
 import { TabState } from 'src/app/constants/tabState';
 import { Item } from 'src/app/interfaces/item';
-import { TodoApiService } from '../../service/todo-api.service';
+import { FormService } from '../../service/form.service';
 import { TodoService } from '../../service/todo.service';
 
 @Component({
@@ -16,10 +16,7 @@ export class FormComponent implements OnInit, OnDestroy {
   public tabState: string = TabState.ALL;
   public isLoading: boolean = false;
   public isEdit: boolean = false;
-  public addEditForm = this.fb.group({
-    name: ['', [Validators.required]],
-    due: ['', [Validators.required]],
-  });
+  public addEditForm: FormGroup = this._formService.addEditForm;
   public item: Item = {
     name: '',
     due: '',
@@ -39,8 +36,7 @@ export class FormComponent implements OnInit, OnDestroy {
 
   constructor(
     private _todoService: TodoService,
-    private _todoAPIService: TodoApiService,
-    private fb: FormBuilder
+    private _formService: FormService
   ) {}
 
   ngOnInit(): void {
@@ -65,8 +61,29 @@ export class FormComponent implements OnInit, OnDestroy {
       },
     });
 
+    const isEditSubscription = this._formService.isEdit$.subscribe(
+      (isEdit: boolean) => {
+        this.isEdit = isEdit;
+      }
+    );
+
+    const isLoadingSubscription = this._formService.isLoading$.subscribe(
+      (isLoading: boolean) => {
+        this.isLoading = isLoading;
+      }
+    );
+
+    const addEditFormSubscription = this._formService.addEditForm$.subscribe(
+      (addEditForm: FormGroup) => {
+        this.addEditForm = addEditForm;
+      }
+    );
+
     this.subscription.add(editItemSubscription);
     this.subscription.add(tabStateSubscription);
+    this.subscription.add(isEditSubscription);
+    this.subscription.add(isLoadingSubscription);
+    this.subscription.add(addEditFormSubscription);
   }
 
   ngOnDestroy(): void {
@@ -88,40 +105,9 @@ export class FormComponent implements OnInit, OnDestroy {
     this.isLoading = true;
 
     if (!this.isEdit) {
-      this.createItem(this.tabState, this.item);
+      this._formService.createItem(this.tabState, this.item);
     } else {
-      this.updateItem(this.tabState, this.item);
+      this._formService.updateItem(this.tabState, this.item);
     }
-  }
-
-  // tabState parameter will let we know which tab view
-  // will be rendered
-  createItem(tabState: string, item: Item): void {
-    this._todoAPIService.addItemByAPI(item, tabState).subscribe({
-      next: () => {
-        this.addEditForm.reset({ name: '', due: '' });
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.log(err);
-        this.isLoading = false;
-      },
-    });
-  }
-
-  // tabState parameter will let we know which tab view
-  // will be rendered
-  updateItem(tabState: string, item: Item): void {
-    this._todoAPIService.updateItemByAPI(item, tabState).subscribe({
-      next: () => {
-        this.addEditForm.reset({ name: '', due: '' });
-        this.isEdit = false;
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.log(err);
-        this.isLoading = false;
-      },
-    });
   }
 }

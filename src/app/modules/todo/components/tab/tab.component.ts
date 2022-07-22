@@ -17,7 +17,7 @@ export class TabComponent implements OnInit {
     completed: false,
   };
 
-  @Output() tabEvent = new EventEmitter();
+  @Output() tabEvent:EventEmitter<string> = new EventEmitter();
 
   constructor() {}
 

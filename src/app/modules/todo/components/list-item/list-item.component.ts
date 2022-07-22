@@ -8,9 +8,9 @@ import { Item } from 'src/app/interfaces/item';
 })
 export class ListItemComponent implements OnInit {
   @Input() public itemArr: Item[] = [];
-  @Output() deleteEvent = new EventEmitter();
-  @Output() accomplishEvent = new EventEmitter();
-  @Output() editEvent = new EventEmitter();
+  @Output() deleteEvent: EventEmitter<number> = new EventEmitter();
+  @Output() accomplishEvent: EventEmitter<Item> = new EventEmitter();
+  @Output() editEvent: EventEmitter<Item> = new EventEmitter();
 
   constructor() {}
 
@@ -26,5 +26,5 @@ export class ListItemComponent implements OnInit {
 
   onEdit(item: Item): void {
     this.editEvent.emit(item);
-  } 
+  }
 }

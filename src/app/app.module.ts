@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { TodoModule } from './modules/todo/todo.module';
-import { ConfirmModalComponent } from './shared/confirm-modal/confirm-modal.component';
 
 @NgModule({
   declarations: [AppComponent],
