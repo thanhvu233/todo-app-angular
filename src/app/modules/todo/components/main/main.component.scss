@@ -1,11 +1,41 @@
 .main {
   width: 1024px;
-  min-height: 440px;
 
   background-color: var(--white-color);
   border-radius: 5px;
 
-  margin-top: 40px;
+  margin: 32px auto 28px;
 
   padding: 24px 32px;
+}
+
+.items-above-list {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  margin-top: 32px;
+  margin-bottom: 4px;
+}
+
+.addBtn {
+  width: 80px;
+  height: 38px;
+
+  border: none;
+  border-radius: 5px;
+  background-color: var(--blue-color);
+
+  color: var(--white-color);
+  font-size: 14px;
+  font-weight: 700;
+  font-family: "Roboto";
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.d-none {
+  display: none;
 }

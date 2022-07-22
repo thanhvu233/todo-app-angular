@@ -1,4 +1,11 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { AbstractControl, FormGroup } from '@angular/forms';
 import { Subscription } from 'rxjs';
 import { ItemStatus } from 'src/app/constants/itemStatus';
@@ -14,6 +21,9 @@ import { TodoService } from '../../service/todo.service';
 })
 export class FormComponent implements OnInit, OnDestroy {
   public tabState: string = TabState.ALL;
+  @Input() public formTitle: string = 'Add';
+  @Output() public closeFormEvent: EventEmitter<void> =
+    new EventEmitter<void>();
   public isLoading: boolean = false;
   public isEdit: boolean = false;
   public addEditForm: FormGroup = this._formService.addEditForm;
@@ -109,5 +119,13 @@ export class FormComponent implements OnInit, OnDestroy {
     } else {
       this._formService.updateItem(this.tabState, this.item);
     }
+
+    this.closeFormEvent.emit();
+  }
+
+  onCloseForm() {
+    this.closeFormEvent.emit();
+    this.isEdit = false;
+    this.addEditForm.reset({ name: '', due: '' });
   }
 }

@@ -1,8 +1,15 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  OnDestroy,
+  OnInit,
+  Output,
+} from '@angular/core';
 import { Subscription } from 'rxjs';
 import { ItemStatus } from 'src/app/constants/itemStatus';
 import { TabState } from 'src/app/constants/tabState';
 import { Item } from 'src/app/interfaces/item';
+import { FormService } from '../../service/form.service';
 import { TodoApiService } from '../../service/todo-api.service';
 import { TodoService } from '../../service/todo.service';
 
@@ -20,11 +27,13 @@ export class MainComponent implements OnInit, OnDestroy {
   public isLoading: boolean = false;
   public isConfirmModalOpen: boolean = false;
   public itemId: number = 0;
+  @Output() openFormEvent: EventEmitter<string> = new EventEmitter();
   subscription: Subscription = new Subscription();
 
   constructor(
     private _todoService: TodoService,
-    private _todoAPIService: TodoApiService
+    private _todoAPIService: TodoApiService,
+    private _formService: FormService
   ) {}
 
   ngOnInit(): void {
@@ -94,7 +103,7 @@ export class MainComponent implements OnInit, OnDestroy {
     this._todoAPIService
       .accomplishItemByAPI(completedItem, this.tabState)
       .subscribe({
-        next: (data) => {
+        next: () => {
           this.isLoading = false;
         },
         error: (err) => {
@@ -120,7 +129,7 @@ export class MainComponent implements OnInit, OnDestroy {
   }
 
   handleEdit(item: Item): void {
-    this._todoService.sendItem(item, true);
+    this._formService.openEditForm(item);
   }
 
   handleCloseConfirmDelete(): void {
@@ -132,7 +141,7 @@ export class MainComponent implements OnInit, OnDestroy {
     this.isLoading = true;
 
     this._todoAPIService.deleteItemByAPI(this.itemId, this.tabState).subscribe({
-      next: (data) => {
+      next: () => {
         if (this.tabState == TabState.ALL) {
           this._todoAPIService.getAllItemsByAPI();
         } else {
@@ -147,5 +156,9 @@ export class MainComponent implements OnInit, OnDestroy {
         this.isLoading = false;
       },
     });
+  }
+
+  onClickAddBtn(): void {
+    this.openFormEvent.emit('Add');
   }
 }

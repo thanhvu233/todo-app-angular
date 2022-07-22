@@ -70,7 +70,6 @@ export class TodoService {
         this.countItem = response.length;
 
         this._countItem.next(this.countItem);
-
       },
       error: (err) => {
         console.log(err);
@@ -83,7 +82,7 @@ export class TodoService {
       next: (response) => {
         this.totalItem = response.length;
 
-        this._totalItem.next(this.totalItem)
+        this._totalItem.next(this.totalItem);
       },
       error: (err) => {
         console.log(err);

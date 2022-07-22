@@ -1,4 +1,4 @@
-<div *ngIf="isLoading">
+<div [class.d-none]="!isLoading">
   <app-loading-spinner></app-loading-spinner>
 </div>
 <app-confirm-modal
@@ -9,11 +9,14 @@
 ></app-confirm-modal>
 <div class="main">
   <app-tab (tabEvent)="handleTabClick($event)"></app-tab>
-  <app-counter
-    [totalItem]="totalItem"
-    [countItem]="countItem"
-    [itemState]="itemState"
-  ></app-counter>
+  <div class="items-above-list">
+    <app-counter
+      [totalItem]="totalItem"
+      [countItem]="countItem"
+      [itemState]="itemState"
+    ></app-counter>
+    <button class="addBtn" (click)="onClickAddBtn()">Add</button>
+  </div>
   <app-list-item
     [itemArr]="itemArr"
     (deleteEvent)="handleDeleteClick($event)"

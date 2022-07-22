@@ -1,4 +1,7 @@
-<div class="container">
-    <app-form></app-form>
-    <app-main></app-main>
-</div>
+<h1 class="app-title">TODO APP</h1>
+<app-form
+  [class.d-none]="!isAddEditFormOpen"
+  (closeFormEvent)="handleCloseForm()"
+  [formTitle]="formTitle"
+></app-form>
+<app-main (openFormEvent)="handleOpenForm($event)"></app-main>

@@ -27,6 +27,9 @@ export class FormService {
   private _addEditForm: Subject<FormGroup> = new Subject<FormGroup>();
   addEditForm$: Observable<FormGroup> = this._addEditForm.asObservable();
 
+  private _openEditForm: Subject<Item> = new Subject<Item>();
+  openEditForm$: Observable<Item> = this._openEditForm.asObservable();
+
   // tabState parameter will let we know which tab view
   // will be rendered
   createItem(tabState: string, item: Item): void {
@@ -58,5 +61,9 @@ export class FormService {
         this._isLoading.next(false);
       },
     });
+  }
+
+  openEditForm(item: Item): void {
+    this._openEditForm.next(item);
   }
 }

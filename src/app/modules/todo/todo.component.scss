@@ -1,7 +1,10 @@
-.container {
-  display: flex;
-  justify-content: space-around;
-  height: 100vh;
-  width: 100vw;
+.app-title {
+  color: var(--white-color);
 
+  text-align: center;
+  padding-top: 32px;
+}
+
+.d-none {
+  display: none;
 }
