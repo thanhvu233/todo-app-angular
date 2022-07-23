@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { BadgeComponent } from 'src/app/shared/badge/badge.component';
 import { ConfirmModalComponent } from 'src/app/shared/confirm-modal/confirm-modal.component';
 import { LoadingSpinnerComponent } from 'src/app/shared/loading-spinner/loading-spinner.component';
 import { CounterComponent } from './components/counter/counter.component';
@@ -24,6 +25,7 @@ import { TodoComponent } from './todo.component';
     TabComponent,
     LoadingSpinnerComponent,
     ConfirmModalComponent,
+    BadgeComponent,
   ],
   imports: [CommonModule, HttpClientModule, FormsModule, ReactiveFormsModule],
   exports: [

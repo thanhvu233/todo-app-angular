@@ -1,0 +1,27 @@
+span {
+  display: inline-block;
+  font-size: 10px;
+  font-weight: 700;
+  line-height: 1;
+  text-align: center;
+  white-space: nowrap;
+  vertical-align: baseline;
+  padding: 0.4em 0.6em 0.3em;
+  border-radius: 10rem;
+  transform: translateY(-2.5px);
+
+  color: var(--white-color);
+}
+
+.warning {
+  background-color: var(--red-color);
+  margin-left: 3px;
+}
+
+.success {
+  background-color: var(--green-color);
+}
+
+.primary {
+  background-color: var(--blue-color);
+}

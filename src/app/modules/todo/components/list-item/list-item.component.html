@@ -4,13 +4,21 @@
       <div class="list-item__title">
         <p>{{ item.name }}</p>
         <div [ngSwitch]="item.status">
-          <span class="badge badge-completed" *ngSwitchCase="'completed'"
-            >COMPLETED</span
-          >
-          <span class="badge badge-active" *ngSwitchCase="'active'"
-            >ACTIVE</span
-          >
-          <span class="badge badge-warning" *ngIf="item.isWarning">WARNING</span>
+          <app-badge
+            [color]="'success'"
+            [text]="'COMPLETED'"
+            *ngSwitchCase="'completed'"
+          ></app-badge>
+          <app-badge
+            [color]="'primary'"
+            [text]="'ACTIVE'"
+            *ngSwitchCase="'active'"
+          ></app-badge>
+          <app-badge
+            [color]="'warning'"
+            [text]="'WARNING'"
+            *ngIf="item.isWarning"
+          ></app-badge>
         </div>
       </div>
 
