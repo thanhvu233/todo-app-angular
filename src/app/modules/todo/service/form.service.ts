@@ -30,6 +30,10 @@ export class FormService {
   private _openEditForm: Subject<Item> = new Subject<Item>();
   openEditForm$: Observable<Item> = this._openEditForm.asObservable();
 
+  get isLoading(): Subject<boolean> {
+    return this._isLoading;
+  }
+
   // tabState parameter will let we know which tab view
   // will be rendered
   createItem(tabState: string, item: Item): void {

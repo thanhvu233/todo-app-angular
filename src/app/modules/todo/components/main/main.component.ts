@@ -72,6 +72,12 @@ export class MainComponent implements OnInit, OnDestroy {
         this.itemArr = itemArr;
       });
 
+    const isLoadingSubscription = this._formService.isLoading$.subscribe(
+      (isLoading: boolean) => {
+        this.isLoading = isLoading;
+      }
+    );
+
     this._todoService.getAllItems();
     this._todoService.getItemCountByStatus(ItemStatus.ACTIVE);
 
@@ -80,6 +86,7 @@ export class MainComponent implements OnInit, OnDestroy {
     this.subscription.add(totalItemSubscription);
     this.subscription.add(countItemSubscription);
     this.subscription.add(itemByStatusArrSubscription);
+    this.subscription.add(isLoadingSubscription);
   }
 
   ngOnDestroy(): void {

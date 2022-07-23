@@ -77,12 +77,6 @@ export class FormComponent implements OnInit, OnDestroy {
       }
     );
 
-    const isLoadingSubscription = this._formService.isLoading$.subscribe(
-      (isLoading: boolean) => {
-        this.isLoading = isLoading;
-      }
-    );
-
     const addEditFormSubscription = this._formService.addEditForm$.subscribe(
       (addEditForm: FormGroup) => {
         this.addEditForm = addEditForm;
@@ -92,7 +86,6 @@ export class FormComponent implements OnInit, OnDestroy {
     this.subscription.add(editItemSubscription);
     this.subscription.add(tabStateSubscription);
     this.subscription.add(isEditSubscription);
-    this.subscription.add(isLoadingSubscription);
     this.subscription.add(addEditFormSubscription);
   }
 
@@ -112,7 +105,7 @@ export class FormComponent implements OnInit, OnDestroy {
       isWarning: isWarning,
     };
 
-    this.isLoading = true;
+    this._formService.isLoading.next(true);
 
     if (!this.isEdit) {
       this._formService.createItem(this.tabState, this.item);
