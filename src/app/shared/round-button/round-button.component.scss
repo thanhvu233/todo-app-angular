@@ -1,0 +1,29 @@
+button {
+  width: 48px;
+  height: 48px;
+
+  border: none;
+  border-radius: 48px;
+
+  text-align: center;
+
+  & img {
+    transform: translateX(11px);
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.warning {
+  background-color: var(--yellow-color);
+}
+
+.success {
+  background-color: var(--green-color);
+}
+
+.danger {
+  background-color: var(--red-color);
+}

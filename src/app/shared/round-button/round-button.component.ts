@@ -2,17 +2,17 @@ import { Component, Input, OnInit } from '@angular/core';
 import { ColorState } from 'src/app/constants/colorState';
 
 @Component({
-  selector: 'app-badge',
-  templateUrl: './badge.component.html',
-  styleUrls: ['./badge.component.scss'],
+  selector: 'app-round-button',
+  templateUrl: './round-button.component.html',
+  styleUrls: ['./round-button.component.scss'],
 })
-export class BadgeComponent implements OnInit {
+export class RoundButtonComponent implements OnInit {
   @Input() color: string = '';
-  @Input() text: string = '';
+  @Input() iconSrc: string = '';
   colorClasses: Object = {
     success: false,
+    warning: false,
     danger: false,
-    primary: false,
   };
 
   constructor() {}
@@ -20,8 +20,8 @@ export class BadgeComponent implements OnInit {
   ngOnInit(): void {
     this.colorClasses = {
       success: this.color === ColorState.SUCCESS,
+      warning: this.color === ColorState.WARNING,
       danger: this.color === ColorState.DANGER,
-      primary: this.color === ColorState.PRIMARY,
     };
   }
 }

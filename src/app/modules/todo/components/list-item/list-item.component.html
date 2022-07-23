@@ -15,7 +15,7 @@
             *ngSwitchCase="'active'"
           ></app-badge>
           <app-badge
-            [color]="'warning'"
+            [color]="'danger'"
             [text]="'WARNING'"
             *ngIf="item.isWarning"
           ></app-badge>
@@ -28,23 +28,23 @@
     </div>
 
     <div class="list-item__modify">
-      <button
-        class="complete-btn"
+      <app-round-button
         (click)="onAccomplish(item)"
         [class.d-none]="item.status == 'completed'"
-      >
-        <img src="../../../assets/images/completeIcon.svg" alt="completeIcon" />
-      </button>
-      <button
-        class="edit-btn"
+        [color]="'success'"
+        [iconSrc]="'../../../assets/images/completeIcon.svg'"
+      ></app-round-button>
+      <app-round-button
         (click)="onEdit(item)"
         [class.d-none]="item.status == 'completed'"
-      >
-        <img src="../../../assets/images/editIcon.svg" alt="editIcon" />
-      </button>
-      <button class="delete-btn" (click)="onDelete(item.id)">
-        <img src="../../../assets/images/deleteIcon.svg" alt="deleteIcon" />
-      </button>
+        [color]="'warning'"
+        [iconSrc]="'../../../assets/images/editIcon.svg'"
+      ></app-round-button>
+      <app-round-button
+        (click)="onDelete(item.id)"
+        [color]="'danger'"
+        [iconSrc]="'../../../assets/images/deleteIcon.svg'"
+      ></app-round-button>
     </div>
   </li>
 </ul>
