@@ -109,6 +109,7 @@ export class FormComponent implements OnInit, OnDestroy {
 
     if (!this.isEdit) {
       this._formService.createItem(this.tabState, this.item);
+      this.addEditForm.reset({ name: '', due: '' });
     } else {
       this._formService.updateItem(this.tabState, this.item);
     }

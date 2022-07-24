@@ -4,6 +4,7 @@ import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BadgeComponent } from 'src/app/shared/badge/badge.component';
 import { ConfirmModalComponent } from 'src/app/shared/confirm-modal/confirm-modal.component';
+import { FormErrorMessageComponent } from 'src/app/shared/form-error-message/form-error-message.component';
 import { InputFieldComponent } from 'src/app/shared/input-field/input-field.component';
 import { LoadingSpinnerComponent } from 'src/app/shared/loading-spinner/loading-spinner.component';
 import { RoundButtonComponent } from 'src/app/shared/round-button/round-button.component';
@@ -32,6 +33,7 @@ import { TodoComponent } from './todo.component';
     InputFieldComponent,
     SquareButtonComponent,
     RoundButtonComponent,
+    FormErrorMessageComponent,
   ],
   imports: [CommonModule, HttpClientModule, FormsModule, ReactiveFormsModule],
   exports: [
@@ -47,6 +49,7 @@ import { TodoComponent } from './todo.component';
     InputFieldComponent,
     SquareButtonComponent,
     RoundButtonComponent,
+    FormErrorMessageComponent,
   ],
   providers: [TodoService, TodoApiService, FormService],
 })

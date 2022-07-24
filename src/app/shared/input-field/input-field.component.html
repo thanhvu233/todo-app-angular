@@ -4,7 +4,7 @@
     [type]="type"
     [placeholder]="hint"
     [class.is-invalid]="isInvalid"
-    [ngModel]="value"
+    [(ngModel)]="value"
     (ngModelChange)="onChange($event)"
     (blur)="onTouched()"
   />

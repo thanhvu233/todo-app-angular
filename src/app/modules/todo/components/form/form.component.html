@@ -20,9 +20,10 @@
       [isInvalid]="name?.invalid && name?.touched"
       formControlName="name"
     ></app-input-field>
-    <small class="text-danger" [class.d-none]="name?.valid || name?.untouched"
-      >Name is required</small
-    >
+    <app-form-error-message
+      [text]="'Name is required'"
+      [isVisible]="name?.invalid && name?.touched"
+    ></app-form-error-message>
 
     <app-input-field
       [label]="'Due'"
@@ -30,9 +31,10 @@
       [isInvalid]="due?.invalid && due?.touched"
       formControlName="due"
     ></app-input-field>
-    <small class="text-danger" [class.d-none]="due?.valid || due?.untouched"
-      >Due is required</small
-    >
+    <app-form-error-message
+      [text]="'Due is required'"
+      [isVisible]="due?.invalid && due?.touched"
+    ></app-form-error-message>
 
     <app-square-button
       [size]="'large'"
