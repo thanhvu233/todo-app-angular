@@ -49,54 +49,10 @@
     margin-bottom: 16px;
     margin-top: 8px;
   }
-
-  & .item-name {
-    & label {
-      @extend .item-label;
-    }
-
-    & input {
-      @extend .item-input;
-    }
-  }
-
-  & .item-due {
-    margin-top: 4px;
-
-    & label {
-      @extend .item-label;
-    }
-
-    & input {
-      @extend .item-input;
-    }
-  }
 }
 
 .form__btn ::ng-deep .squareBtn {
   margin-top: 6px;
-}
-
-.item-label {
-  font-size: 16px;
-  font-weight: 500;
-}
-
-.item-input {
-  width: 336px;
-  height: 32px;
-
-  margin-top: 6px;
-  padding: 0 8px;
-
-  border-radius: 5px;
-  border: 1px solid var(--border-input-color);
-  background-color: var(--background-input-color);
-  color: var(--text-input-color);
-}
-
-.is-invalid {
-  border: 0.5px solid var(--red-color) !important;
 }
 
 .d-none {

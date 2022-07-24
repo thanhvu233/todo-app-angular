@@ -1,1 +1,11 @@
-<p>input-field works!</p>
+<div>
+  <label>{{ label }}:</label>
+  <input
+    [type]="type"
+    [placeholder]="hint"
+    [class.is-invalid]="isInvalid"
+    [ngModel]="value"
+    (ngModelChange)="onChange($event)"
+    (blur)="onTouched()"
+  />
+</div>
