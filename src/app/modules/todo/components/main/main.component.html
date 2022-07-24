@@ -15,7 +15,13 @@
       [countItem]="countItem"
       [itemState]="itemState"
     ></app-counter>
-    <button class="addBtn" (click)="onClickAddBtn()">Add</button>
+    <app-square-button
+      (click)="onClickAddBtn()"
+      [size]="'small'"
+      [color]="'primary'"
+      [text]="'Add'"
+      [type]="'button'"
+    ></app-square-button>
   </div>
   <app-list-item
     [itemArr]="itemArr"

@@ -40,13 +40,14 @@
       >
     </div>
 
-    <button
-      type="submit"
+    <app-square-button
+      [size]="'large'"
+      [color]="'primary'"
+      [text]="'SUBMIT'"
+      [type]="'submit'"
+      [isDisabled]="!addEditForm.valid"
       class="form__btn"
-      [class.is-disabled]="!addEditForm.valid"
       (click)="onSubmit()"
-    >
-      SUBMIT
-    </button>
+    ></app-square-button>
   </form>
 </div>
