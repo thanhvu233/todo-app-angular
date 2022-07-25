@@ -28,23 +28,26 @@
     </div>
 
     <div class="list-item__modify">
-      <app-round-button
+      <app-button
         (click)="onAccomplish(item)"
         [class.d-none]="item.status == 'completed'"
         [color]="'success'"
         [iconSrc]="'../../../assets/images/completeIcon.svg'"
-      ></app-round-button>
-      <app-round-button
+        [shape]="'round'"
+      ></app-button>
+      <app-button
         (click)="onEdit(item)"
         [class.d-none]="item.status == 'completed'"
         [color]="'warning'"
         [iconSrc]="'../../../assets/images/editIcon.svg'"
-      ></app-round-button>
-      <app-round-button
+        [shape]="'round'"
+      ></app-button>
+      <app-button
         (click)="onDelete(item.id)"
         [color]="'danger'"
         [iconSrc]="'../../../assets/images/deleteIcon.svg'"
-      ></app-round-button>
+        [shape]="'round'"
+      ></app-button>
     </div>
   </li>
 </ul>

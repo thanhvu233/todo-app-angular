@@ -2,13 +2,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { BadgeComponent } from 'src/app/shared/badge/badge.component';
-import { ConfirmModalComponent } from 'src/app/shared/confirm-modal/confirm-modal.component';
-import { FormErrorMessageComponent } from 'src/app/shared/form-error-message/form-error-message.component';
-import { InputFieldComponent } from 'src/app/shared/input-field/input-field.component';
-import { LoadingSpinnerComponent } from 'src/app/shared/loading-spinner/loading-spinner.component';
-import { RoundButtonComponent } from 'src/app/shared/round-button/round-button.component';
-import { SquareButtonComponent } from 'src/app/shared/square-button/square-button.component';
+import { SharedModule } from 'src/app/shared/shared.module';
 import { CounterComponent } from './components/counter/counter.component';
 import { FormComponent } from './components/form/form.component';
 import { ListItemComponent } from './components/list-item/list-item.component';
@@ -27,15 +21,14 @@ import { TodoComponent } from './todo.component';
     ListItemComponent,
     TodoComponent,
     TabComponent,
-    LoadingSpinnerComponent,
-    ConfirmModalComponent,
-    BadgeComponent,
-    InputFieldComponent,
-    SquareButtonComponent,
-    RoundButtonComponent,
-    FormErrorMessageComponent,
   ],
-  imports: [CommonModule, HttpClientModule, FormsModule, ReactiveFormsModule],
+  imports: [
+    CommonModule,
+    HttpClientModule,
+    FormsModule,
+    ReactiveFormsModule,
+    SharedModule,
+  ],
   exports: [
     FormComponent,
     MainComponent,
@@ -43,13 +36,6 @@ import { TodoComponent } from './todo.component';
     ListItemComponent,
     TodoComponent,
     TabComponent,
-    LoadingSpinnerComponent,
-    ConfirmModalComponent,
-    BadgeComponent,
-    InputFieldComponent,
-    SquareButtonComponent,
-    RoundButtonComponent,
-    FormErrorMessageComponent,
   ],
   providers: [TodoService, TodoApiService, FormService],
 })

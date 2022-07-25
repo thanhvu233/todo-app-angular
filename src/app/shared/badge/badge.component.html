@@ -1,1 +1,6 @@
-<span [ngClass]='colorClasses'>{{text}}</span>
+<span
+  [class.danger]="color === 'danger'"
+  [class.success]="color === 'success'"
+  [class.primary]="color === 'primary'"
+  >{{ text }}</span
+>

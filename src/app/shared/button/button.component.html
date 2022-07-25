@@ -1,0 +1,16 @@
+<button
+  [type]="type"
+  [class.warning]="color === 'warning'"
+  [class.danger]="color === 'danger'"
+  [class.success]="color === 'success'"
+  [class.secondary]="color === 'secondary'"
+  [class.primary]="color === 'primary'"
+  [class.small]="size === 'small'"
+  [class.large]="size === 'large'"
+  [class.square]="shape === 'square'"
+  [class.round]="shape === 'round'"
+  [class.isDisabled]="isDisabled"
+>
+  <img [src]="iconSrc" *ngIf="iconSrc !== ''" />
+  <span *ngIf="text !== ''">{{ text }}</span>
+</button>

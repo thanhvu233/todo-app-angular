@@ -36,7 +36,7 @@
       [isVisible]="due?.invalid && due?.touched"
     ></app-form-error-message>
 
-    <app-square-button
+    <app-button
       [size]="'large'"
       [color]="'primary'"
       [text]="'SUBMIT'"
@@ -44,6 +44,6 @@
       [isDisabled]="!addEditForm.valid"
       class="form__btn"
       (click)="onSubmit()"
-    ></app-square-button>
+    ></app-button>
   </form>
 </div>

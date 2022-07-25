@@ -1,0 +1,67 @@
+.round {
+  width: 48px;
+  height: 48px;
+
+  border: none;
+  border-radius: 48px;
+
+  text-align: center;
+
+  & img {
+    transform: translateX(11px);
+  }
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.square {
+  border: none;
+  border-radius: 5px;
+  color: var(--white-color);
+  font-family: "Roboto";
+
+  &:hover {
+    opacity: 0.8;
+  }
+}
+
+.warning {
+  background-color: var(--yellow-color);
+}
+
+.success {
+  background-color: var(--green-color);
+}
+
+.danger {
+  background-color: var(--red-color);
+}
+
+.primary {
+  background-color: var(--blue-color);
+}
+
+.secondary {
+  background-color: var(--secondary-color);
+}
+
+.large {
+  width: 336px;
+  min-height: 32px;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.small {
+  width: 90px;
+  height: 40px;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.isDisabled {
+  opacity: 0.65;
+  pointer-events: none;
+}
